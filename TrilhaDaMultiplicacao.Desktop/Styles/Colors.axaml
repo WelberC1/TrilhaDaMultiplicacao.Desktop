@@ -1,0 +1,77 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!--
+    Paleta baseada na pesquisa de psicologia das cores aplicada no TG do projeto:
+    azul (tranquilidade), laranja (energia/criatividade), amarelo (intelecto/alegria)
+    e vermelho (estímulo), escolhidas para tornar o aprendizado divertido sem
+    gerar estresse visual em crianças do ensino fundamental I.
+  -->
+
+  <ResourceDictionary.ThemeDictionaries>
+    <ResourceDictionary x:Key="Light">
+      <Color x:Key="AppColorBackground">#EAF4FF</Color>
+      <Color x:Key="AppColorSurface">#FFFFFF</Color>
+      <Color x:Key="AppColorSurfaceAlt">#F3F8FF</Color>
+      <Color x:Key="AppColorBorder">#DCEAFB</Color>
+      <Color x:Key="AppColorTextPrimary">#1F2A44</Color>
+      <Color x:Key="AppColorTextSecondary">#66738F</Color>
+      <Color x:Key="AppColorShadow">#22355E</Color>
+      <LinearGradientBrush x:Key="AppSceneGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+        <GradientStop Offset="0" Color="#DCEBFF" />
+        <GradientStop Offset="0.55" Color="#EAF4FF" />
+        <GradientStop Offset="1" Color="#FFF3E2" />
+      </LinearGradientBrush>
+    </ResourceDictionary>
+    <ResourceDictionary x:Key="Dark">
+      <Color x:Key="AppColorBackground">#0F1730</Color>
+      <Color x:Key="AppColorSurface">#182347</Color>
+      <Color x:Key="AppColorSurfaceAlt">#1F2C55</Color>
+      <Color x:Key="AppColorBorder">#2C3A66</Color>
+      <Color x:Key="AppColorTextPrimary">#F2F5FF</Color>
+      <Color x:Key="AppColorTextSecondary">#A6B1D6</Color>
+      <Color x:Key="AppColorShadow">#000000</Color>
+      <LinearGradientBrush x:Key="AppSceneGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+        <GradientStop Offset="0" Color="#0B1226" />
+        <GradientStop Offset="0.55" Color="#12193A" />
+        <GradientStop Offset="1" Color="#241933" />
+      </LinearGradientBrush>
+    </ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
+
+  <!-- Cores da marca -->
+  <Color x:Key="AppColorBlue">#2E7BF6</Color>
+  <Color x:Key="AppColorBlueDeep">#1E4FD1</Color>
+  <Color x:Key="AppColorOrange">#FF8A3D</Color>
+  <Color x:Key="AppColorOrangeDeep">#F5590C</Color>
+  <Color x:Key="AppColorYellow">#FFC93C</Color>
+  <Color x:Key="AppColorRed">#FF5A5F</Color>
+  <Color x:Key="AppColorGreen">#2FC48D</Color>
+  <Color x:Key="AppColorOnPrimary">#FFFFFF</Color>
+
+  <SolidColorBrush x:Key="AppBackgroundBrush" Color="{DynamicResource AppColorBackground}" />
+  <SolidColorBrush x:Key="AppSurfaceBrush" Color="{DynamicResource AppColorSurface}" />
+  <SolidColorBrush x:Key="AppSurfaceAltBrush" Color="{DynamicResource AppColorSurfaceAlt}" />
+  <SolidColorBrush x:Key="AppBorderBrush" Color="{DynamicResource AppColorBorder}" />
+  <SolidColorBrush x:Key="AppTextPrimaryBrush" Color="{DynamicResource AppColorTextPrimary}" />
+  <SolidColorBrush x:Key="AppTextSecondaryBrush" Color="{DynamicResource AppColorTextSecondary}" />
+
+  <SolidColorBrush x:Key="AppBlueBrush" Color="{StaticResource AppColorBlue}" />
+  <SolidColorBrush x:Key="AppOrangeBrush" Color="{StaticResource AppColorOrange}" />
+  <SolidColorBrush x:Key="AppYellowBrush" Color="{StaticResource AppColorYellow}" />
+  <SolidColorBrush x:Key="AppRedBrush" Color="{StaticResource AppColorRed}" />
+  <SolidColorBrush x:Key="AppGreenBrush" Color="{StaticResource AppColorGreen}" />
+  <SolidColorBrush x:Key="AppOnPrimaryBrush" Color="{StaticResource AppColorOnPrimary}" />
+
+  <!-- Botão principal / mascote -->
+  <LinearGradientBrush x:Key="AppPrimaryGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+    <GradientStop Offset="0" Color="#FFA24D" />
+    <GradientStop Offset="1" Color="#F5590C" />
+  </LinearGradientBrush>
+
+  <RadialGradientBrush x:Key="AppMascotGradientBrush" Center="35%,30%" GradientOrigin="35%,30%" RadiusX="80%" RadiusY="80%">
+    <GradientStop Offset="0" Color="#FFCB6B" />
+    <GradientStop Offset="1" Color="#F5590C" />
+  </RadialGradientBrush>
+
+</ResourceDictionary>

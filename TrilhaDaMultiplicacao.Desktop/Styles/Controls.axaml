@@ -1,0 +1,116 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- ===================== Tipografia ===================== -->
+  <Style Selector="TextBlock.h1">
+    <Setter Property="FontSize" Value="30" />
+    <Setter Property="FontWeight" Value="ExtraBold" />
+    <Setter Property="Foreground" Value="{DynamicResource AppTextPrimaryBrush}" />
+  </Style>
+  <Style Selector="TextBlock.h2">
+    <Setter Property="FontSize" Value="19" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="Foreground" Value="{DynamicResource AppTextPrimaryBrush}" />
+  </Style>
+  <Style Selector="TextBlock.muted">
+    <Setter Property="Foreground" Value="{DynamicResource AppTextSecondaryBrush}" />
+    <Setter Property="FontSize" Value="14" />
+  </Style>
+  <Style Selector="TextBlock.field-label">
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Foreground" Value="{DynamicResource AppTextSecondaryBrush}" />
+    <Setter Property="Margin" Value="4,0,0,6" />
+  </Style>
+  <Style Selector="TextBlock.error-text">
+    <Setter Property="Foreground" Value="{DynamicResource AppRedBrush}" />
+    <Setter Property="FontSize" Value="13.5" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+  <Style Selector="TextBlock.info-text">
+    <Setter Property="Foreground" Value="{DynamicResource AppBlueBrush}" />
+    <Setter Property="FontSize" Value="13.5" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+
+  <!-- ===================== Botões ===================== -->
+  <Style Selector="Button">
+    <Setter Property="CornerRadius" Value="14" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.12" />
+      </Transitions>
+    </Setter>
+  </Style>
+  <Style Selector="Button:pressed">
+    <Setter Property="RenderTransform" Value="scale(0.97)" />
+  </Style>
+
+  <Style Selector="Button.primary">
+    <Setter Property="Background" Value="{DynamicResource AppPrimaryGradientBrush}" />
+    <Setter Property="Foreground" Value="White" />
+    <Setter Property="Padding" Value="20,15" />
+    <Setter Property="FontSize" Value="17" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
+  <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+    <Setter Property="Opacity" Value="0.94" />
+  </Style>
+  <Style Selector="Button.primary:pointerover">
+    <Setter Property="RenderTransform" Value="scale(1.03)" />
+  </Style>
+  <Style Selector="Button.primary:disabled">
+    <Setter Property="Opacity" Value="0.6" />
+  </Style>
+
+  <Style Selector="Button.link">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource AppBlueBrush}" />
+    <Setter Property="Padding" Value="4" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="FontSize" Value="13.5" />
+  </Style>
+  <Style Selector="Button.link:pointerover">
+    <Setter Property="Foreground" Value="{DynamicResource AppOrangeBrush}" />
+  </Style>
+
+  <!-- ===================== Cartões ===================== -->
+  <Style Selector="Border.card">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceBrush}" />
+    <Setter Property="CornerRadius" Value="28" />
+    <Setter Property="Padding" Value="20" />
+    <Setter Property="BoxShadow" Value="0 20 60 0 #26243A66" />
+  </Style>
+
+  <Style Selector="Border.blob">
+    <Setter Property="Opacity" Value="0.55" />
+  </Style>
+
+  <!-- ===================== Campos de entrada ===================== -->
+  <Style Selector="TextBox">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceAltBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+    <Setter Property="BorderThickness" Value="2" />
+    <Setter Property="CornerRadius" Value="14" />
+    <Setter Property="Padding" Value="16,13" />
+    <Setter Property="FontSize" Value="15.5" />
+    <Setter Property="Foreground" Value="{DynamicResource AppTextPrimaryBrush}" />
+    <Setter Property="CaretBrush" Value="{DynamicResource AppOrangeBrush}" />
+    <Setter Property="SelectionBrush" Value="{DynamicResource AppYellowBrush}" />
+  </Style>
+  <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+    <Setter Property="BorderBrush" Value="{DynamicResource AppOrangeBrush}" />
+  </Style>
+
+  <Style Selector="CheckBox">
+    <Setter Property="Foreground" Value="{DynamicResource AppTextSecondaryBrush}" />
+    <Setter Property="FontSize" Value="13.5" />
+  </Style>
+
+</Styles>

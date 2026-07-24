@@ -1,0 +1,81 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:TrilhaDaMultiplicacao.Desktop.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1180" d:DesignHeight="760"
+             x:Class="TrilhaDaMultiplicacao.Desktop.Views.HomeView"
+             x:DataType="vm:HomeViewModel">
+
+    <Panel ClipToBounds="True">
+
+        <Border Background="{DynamicResource AppSceneGradientBrush}" />
+
+        <Canvas IsHitTestVisible="False">
+            <Border Canvas.Left="-50" Canvas.Top="-50" Width="220" Height="220" CornerRadius="110"
+                    Background="{DynamicResource AppBlueBrush}" Opacity="0.18" />
+            <Border Canvas.Left="1010" Canvas.Top="600" Width="220" Height="220" CornerRadius="110"
+                    Background="{DynamicResource AppYellowBrush}" Opacity="0.30" />
+        </Canvas>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40,32" Spacing="20" MaxWidth="640">
+
+                <StackPanel HorizontalAlignment="Center" Spacing="6">
+                    <TextBlock Text="{Binding AlunoNome, StringFormat='Olá, {0}! 👋'}" Classes="h1" HorizontalAlignment="Center" TextAlignment="Center" />
+                    <TextBlock Text="Sua trilha de aventuras matemáticas está quase pronta!" Classes="muted"
+                               HorizontalAlignment="Center" TextAlignment="Center" />
+                </StackPanel>
+
+                <Border Classes="card" Padding="30,34" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="0" VerticalAlignment="Center">
+
+                        <StackPanel Spacing="8" Width="90">
+                            <Border Width="76" Height="76" CornerRadius="38" HorizontalAlignment="Center"
+                                    Background="{DynamicResource AppMascotGradientBrush}" BoxShadow="0 10 22 0 #40F5590C">
+                                <TextBlock Text="✖️" FontSize="28" FontWeight="Bold" Foreground="White"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <TextBlock Text="Fase 1" Classes="muted" FontWeight="SemiBold" HorizontalAlignment="Center" />
+                        </StackPanel>
+
+                        <Border Width="34" Height="4" CornerRadius="2" Background="{DynamicResource AppBorderBrush}" Margin="0,-24,0,0" />
+
+                        <StackPanel Spacing="8" Width="90">
+                            <Border Width="68" Height="68" CornerRadius="34" HorizontalAlignment="Center"
+                                    Background="{DynamicResource AppSurfaceAltBrush}" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="2">
+                                <TextBlock Text="🔒" FontSize="22" Opacity="0.55" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <TextBlock Text="Fase 2" Classes="muted" HorizontalAlignment="Center" />
+                        </StackPanel>
+
+                        <Border Width="34" Height="4" CornerRadius="2" Background="{DynamicResource AppBorderBrush}" Margin="0,-24,0,0" />
+
+                        <StackPanel Spacing="8" Width="90">
+                            <Border Width="68" Height="68" CornerRadius="34" HorizontalAlignment="Center"
+                                    Background="{DynamicResource AppSurfaceAltBrush}" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="2">
+                                <TextBlock Text="🔒" FontSize="22" Opacity="0.55" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <TextBlock Text="Fase 3" Classes="muted" HorizontalAlignment="Center" />
+                        </StackPanel>
+
+                        <Border Width="34" Height="4" CornerRadius="2" Background="{DynamicResource AppBorderBrush}" Margin="0,-24,0,0" />
+
+                        <StackPanel Spacing="8" Width="90">
+                            <Border Width="68" Height="68" CornerRadius="34" HorizontalAlignment="Center"
+                                    Background="{DynamicResource AppSurfaceAltBrush}" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="2">
+                                <TextBlock Text="🔒" FontSize="22" Opacity="0.55" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <TextBlock Text="Fase 4" Classes="muted" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Classes="info-text" HorizontalAlignment="Center" TextAlignment="Center" MaxWidth="480"
+                           Text="🚧 Os desafios de memória, raciocínio lógico e interpretação de problemas chegam em breve. Volte sempre para conferir novidades!" />
+
+                <Button Content="Sair" Classes="link" Command="{Binding SairCommand}" HorizontalAlignment="Center" Margin="0,10,0,0" />
+            </StackPanel>
+        </ScrollViewer>
+    </Panel>
+</UserControl>
