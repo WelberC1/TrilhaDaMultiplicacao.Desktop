@@ -1,0 +1,102 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:TrilhaDaMultiplicacao.Desktop.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1180" d:DesignHeight="760"
+             x:Class="TrilhaDaMultiplicacao.Desktop.Views.LoginView"
+             x:DataType="vm:LoginViewModel">
+
+    <Panel ClipToBounds="True">
+
+        <Border Background="{DynamicResource AppSceneGradientBrush}" />
+
+        <!-- ===================== Cenário decorativo ===================== -->
+        <Canvas IsHitTestVisible="False">
+            <Border Canvas.Left="-40" Canvas.Top="-40" Width="220" Height="220" CornerRadius="110"
+                    Background="{DynamicResource AppYellowBrush}" Opacity="0.35" />
+            <Border Canvas.Left="70" Canvas.Top="480" Width="150" Height="150" CornerRadius="75"
+                    Background="{DynamicResource AppBlueBrush}" Opacity="0.20" />
+            <Border Canvas.Left="960" Canvas.Top="-60" Width="260" Height="260" CornerRadius="130"
+                    Background="{DynamicResource AppOrangeBrush}" Opacity="0.22" />
+            <Border Canvas.Left="1020" Canvas.Top="560" Width="180" Height="180" CornerRadius="90"
+                    Background="{DynamicResource AppRedBrush}" Opacity="0.18" />
+
+            <TextBlock Text="×" FontSize="80" FontWeight="Black" Canvas.Left="120" Canvas.Top="180"
+                       Foreground="{DynamicResource AppBlueBrush}" Opacity="0.28">
+                <TextBlock.RenderTransform>
+                    <RotateTransform Angle="-14" />
+                </TextBlock.RenderTransform>
+            </TextBlock>
+            <TextBlock Text="7" FontSize="70" FontWeight="Black" Canvas.Left="1000" Canvas.Top="200"
+                       Foreground="{DynamicResource AppOrangeBrush}" Opacity="0.30">
+                <TextBlock.RenderTransform>
+                    <RotateTransform Angle="10" />
+                </TextBlock.RenderTransform>
+            </TextBlock>
+            <TextBlock Text="✕" FontSize="46" FontWeight="Black" Canvas.Left="150" Canvas.Top="600"
+                       Foreground="{DynamicResource AppRedBrush}" Opacity="0.30">
+                <TextBlock.RenderTransform>
+                    <RotateTransform Angle="12" />
+                </TextBlock.RenderTransform>
+            </TextBlock>
+            <TextBlock Text="9" FontSize="54" FontWeight="Black" Canvas.Left="980" Canvas.Top="600"
+                       Foreground="{DynamicResource AppYellowBrush}" Opacity="0.40">
+                <TextBlock.RenderTransform>
+                    <RotateTransform Angle="-8" />
+                </TextBlock.RenderTransform>
+            </TextBlock>
+            <TextBlock Text="⭐" FontSize="30" Canvas.Left="260" Canvas.Top="100" Opacity="0.6" />
+            <TextBlock Text="⭐" FontSize="22" Canvas.Left="900" Canvas.Top="420" Opacity="0.5" />
+            <TextBlock Text="✨" FontSize="26" Canvas.Left="350" Canvas.Top="560" Opacity="0.6" />
+        </Canvas>
+
+        <!-- ===================== Cartão de login ===================== -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40,32" Spacing="0">
+
+                <Border Width="100" Height="100" CornerRadius="50" HorizontalAlignment="Center" Margin="0,0,0,16"
+                        Background="{DynamicResource AppMascotGradientBrush}" BoxShadow="0 12 28 0 #40F5590C">
+                    <TextBlock Text="🦉" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+
+                <TextBlock Text="Trilha da Multiplicação" Classes="h1" HorizontalAlignment="Center" TextAlignment="Center" />
+                <TextBlock Text="Aprenda multiplicação brincando! 🚀" Classes="muted" HorizontalAlignment="Center" Margin="0,6,0,26" />
+
+                <Border Classes="card" Width="400">
+                    <StackPanel Spacing="0">
+
+                        <TextBlock Text="👤  USUÁRIO" Classes="field-label" />
+                        <TextBox Text="{Binding Usuario}" PlaceholderText="Digite seu usuário" Margin="0,0,0,16" />
+
+                        <TextBlock Text="🔒  SENHA" Classes="field-label" />
+                        <TextBox Text="{Binding Senha}" PasswordChar="●" PlaceholderText="Digite sua senha" Margin="0,0,0,4">
+                            <TextBox.KeyBindings>
+                                <KeyBinding Gesture="Enter" Command="{Binding EntrarCommand}" />
+                            </TextBox.KeyBindings>
+                        </TextBox>
+
+                        <Button Content="Esqueceu a senha?" Classes="link" Command="{Binding EsqueceuSenhaCommand}"
+                                HorizontalAlignment="Right" Margin="0,0,0,6" />
+
+                        <TextBlock Text="{Binding ErrorMessage}" Classes="error-text" IsVisible="{Binding HasError}" Margin="0,4,0,6" />
+                        <TextBlock Text="{Binding InfoMessage}" Classes="info-text" IsVisible="{Binding HasInfo}" Margin="0,4,0,6" />
+
+                        <Button Content="Entrar e jogar! 🎮" Classes="primary" Command="{Binding EntrarCommand}"
+                                IsEnabled="{Binding !IsBusy}"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="0,14,0,0" />
+
+                        <ProgressBar IsIndeterminate="True" Height="4" CornerRadius="2" Margin="0,10,0,0"
+                                     Foreground="{DynamicResource AppOrangeBrush}" Background="Transparent"
+                                     IsVisible="{Binding IsBusy}" />
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="6" Margin="0,22,0,0">
+                            <TextBlock Text="Ainda não tem conta?" Classes="muted" />
+                            <Button Content="Criar conta" Classes="link" Command="{Binding CriarContaCommand}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Panel>
+</UserControl>
