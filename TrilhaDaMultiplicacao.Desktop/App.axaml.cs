@@ -41,6 +41,9 @@ public partial class App : Application
 
         services.AddSingleton<MainViewModel>();
         services.AddTransient<LoginViewModel>();
-        services.AddTransient<HomeViewModel>();
+        services.AddTransient<TrilhaViewModel>();
+        services.AddTransient<RegisterViewModel>();
+        services.AddTransient<ForgotPasswordViewModel>();
+        services.AddTransient<InterpretacaoViewModel>();
     }
 }

@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace TrilhaDaMultiplicacao.Desktop.Views;
 
-public partial class TrilhaView : UserControl
+public partial class InterpretacaoView : UserControl
 {
-    public TrilhaView()
+    public InterpretacaoView()
     {
         InitializeComponent();
     }

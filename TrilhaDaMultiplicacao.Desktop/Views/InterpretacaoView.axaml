@@ -1,0 +1,114 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:TrilhaDaMultiplicacao.Desktop.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1180" d:DesignHeight="760"
+             x:Class="TrilhaDaMultiplicacao.Desktop.Views.InterpretacaoView"
+             x:Name="Root"
+             x:DataType="vm:InterpretacaoViewModel">
+
+    <Panel ClipToBounds="True">
+
+        <Border Background="{DynamicResource AppSceneGradientBrush}" />
+
+        <Canvas IsHitTestVisible="False">
+            <Border Canvas.Left="-50" Canvas.Top="-50" Width="210" Height="210" CornerRadius="105"
+                    Background="{DynamicResource AppYellowBrush}" Opacity="0.20" />
+            <Border Canvas.Left="1010" Canvas.Top="-60" Width="230" Height="230" CornerRadius="115"
+                    Background="{DynamicResource AppOrangeBrush}" Opacity="0.16" />
+            <Border Canvas.Left="1030" Canvas.Top="580" Width="190" Height="190" CornerRadius="95"
+                    Background="{DynamicResource AppBlueBrush}" Opacity="0.16" />
+            <TextBlock Text="📖" FontSize="46" Canvas.Left="140" Canvas.Top="560" Opacity="0.4">
+                <TextBlock.RenderTransform>
+                    <RotateTransform Angle="-10" />
+                </TextBlock.RenderTransform>
+            </TextBlock>
+            <TextBlock Text="✨" FontSize="24" Canvas.Left="940" Canvas.Top="220" Opacity="0.55" />
+        </Canvas>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40,28" Spacing="0">
+
+                <!-- ===================== Jogo ===================== -->
+                <StackPanel IsVisible="{Binding !JogoConcluido}" Spacing="0" HorizontalAlignment="Center">
+                    <Border Width="88" Height="88" CornerRadius="44" HorizontalAlignment="Center" Margin="0,0,0,12"
+                            Background="{DynamicResource AppMascotGradientBrush}" BoxShadow="0 10 24 0 #40F5590C">
+                        <TextBlock Text="👦" FontSize="42" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+
+                    <TextBlock Text="{Binding TituloFase}" Classes="h1" HorizontalAlignment="Center" TextAlignment="Center" />
+                    <TextBlock Classes="muted" HorizontalAlignment="Center" Margin="0,4,0,18">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="Pergunta {0} de {1}">
+                                <Binding Path="NumeroExibido" />
+                                <Binding Path="TotalPerguntas" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+
+                    <ProgressBar Value="{Binding NumeroExibido}" Maximum="{Binding TotalPerguntas}"
+                                 Width="460" Height="8" CornerRadius="4" Margin="0,0,0,20"
+                                 Foreground="{DynamicResource AppOrangeBrush}" Background="{DynamicResource AppBorderBrush}" />
+
+                    <Border Classes="card" Width="500">
+                        <StackPanel Spacing="0">
+
+                            <Border Background="{DynamicResource AppSurfaceAltBrush}" CornerRadius="16" Padding="18,16" Margin="0,0,0,20">
+                                <TextBlock Text="{Binding Enunciado}" TextWrapping="Wrap" FontSize="16.5" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource AppTextPrimaryBrush}" TextAlignment="Center" />
+                            </Border>
+
+                            <ItemsControl ItemsSource="{Binding Opcoes}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="2" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="x:String">
+                                        <Button Content="{Binding}" Classes="option" Margin="6"
+                                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                                IsEnabled="{Binding #Root.((vm:InterpretacaoViewModel)DataContext).PodeResponder}"
+                                                Command="{Binding #Root.((vm:InterpretacaoViewModel)DataContext).ResponderCommand}"
+                                                CommandParameter="{Binding}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <TextBlock Text="{Binding FeedbackTexto}" Classes="info-text" TextWrapping="Wrap" TextAlignment="Center"
+                                       FontSize="14.5" Margin="4,14,4,0" IsVisible="{Binding MostrandoAcerto}" />
+                            <TextBlock Text="{Binding FeedbackTexto}" Classes="error-text" TextWrapping="Wrap" TextAlignment="Center"
+                                       FontSize="14.5" Margin="4,14,4,0" IsVisible="{Binding MostrandoErro}" />
+
+                            <Button Content="{Binding TextoBotaoContinuar}"
+                                    IsVisible="{Binding MostrandoFeedback}" Classes="primary" Command="{Binding ContinuarCommand}"
+                                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="0,16,0,0" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- ===================== Resultado ===================== -->
+                <StackPanel IsVisible="{Binding JogoConcluido}" Spacing="0" HorizontalAlignment="Center">
+                    <Border Width="120" Height="120" CornerRadius="60" HorizontalAlignment="Center" Margin="0,0,0,20"
+                            Background="{DynamicResource AppGreenBrush}" BoxShadow="0 14 30 0 #402FC48D">
+                        <TextBlock Text="🏆" FontSize="56" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <TextBlock Text="Fase concluída!" Classes="h1" HorizontalAlignment="Center" TextAlignment="Center" />
+                    <TextBlock Text="{Binding Estrelinhas}" FontSize="34" HorizontalAlignment="Center" Margin="0,10,0,10"
+                               Foreground="{DynamicResource AppYellowBrush}" />
+                    <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Classes="muted" Margin="0,0,0,26">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="Você acertou {0} de {1} perguntas. Muito bem! 🎉">
+                                <Binding Path="Acertos" />
+                                <Binding Path="TotalPerguntas" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <Button Content="Voltar à trilha 🗺️" Classes="primary" Command="{Binding VoltarTrilhaCommand}"
+                            HorizontalAlignment="Center" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Panel>
+</UserControl>

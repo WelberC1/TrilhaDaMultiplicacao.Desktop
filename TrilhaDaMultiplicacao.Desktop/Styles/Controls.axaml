@@ -80,6 +80,103 @@
     <Setter Property="Foreground" Value="{DynamicResource AppOrangeBrush}" />
   </Style>
 
+  <Style Selector="Button.secondary">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceAltBrush}" />
+    <Setter Property="Foreground" Value="{DynamicResource AppTextPrimaryBrush}" />
+    <Setter Property="Padding" Value="18,13" />
+    <Setter Property="FontSize" Value="15" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+  <Style Selector="Button.secondary:pointerover">
+    <Setter Property="Background" Value="{DynamicResource AppBorderBrush}" />
+  </Style>
+
+  <!-- ===================== Opções de resposta (jogos) ===================== -->
+  <Style Selector="Button.option">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceAltBrush}" />
+    <Setter Property="Foreground" Value="{DynamicResource AppTextPrimaryBrush}" />
+    <Setter Property="Padding" Value="18,14" />
+    <Setter Property="FontSize" Value="15.5" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+  <Style Selector="Button.option:pointerover">
+    <Setter Property="Background" Value="{DynamicResource AppBorderBrush}" />
+  </Style>
+  <Style Selector="Button.option:disabled">
+    <Setter Property="Opacity" Value="0.55" />
+  </Style>
+
+  <!-- ===================== Nós da trilha ===================== -->
+  <Style Selector="Button.fase-node">
+    <Setter Property="CornerRadius" Value="999" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="BorderThickness" Value="4" />
+    <Setter Property="BorderBrush" Value="White" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+  <Style Selector="Button.fase-node:pointerover">
+    <Setter Property="Opacity" Value="0.85" />
+  </Style>
+  <Style Selector="Button.fase-node.bloqueada">
+    <Setter Property="Opacity" Value="0.6" />
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
+  <Style Selector="Button.fase-node.disponivel">
+    <Setter Property="BorderBrush" Value="{DynamicResource AppYellowBrush}" />
+    <Setter Property="RenderTransform">
+      <ScaleTransform ScaleX="1" ScaleY="1" />
+    </Setter>
+    <Style.Animations>
+      <Animation Duration="0:0:1.1" IterationCount="INFINITE" Easing="SineEaseInOut">
+        <KeyFrame Cue="0%">
+          <Setter Property="(ScaleTransform.ScaleX)" Value="1.0" />
+          <Setter Property="(ScaleTransform.ScaleY)" Value="1.0" />
+        </KeyFrame>
+        <KeyFrame Cue="50%">
+          <Setter Property="(ScaleTransform.ScaleX)" Value="1.08" />
+          <Setter Property="(ScaleTransform.ScaleY)" Value="1.08" />
+        </KeyFrame>
+        <KeyFrame Cue="100%">
+          <Setter Property="(ScaleTransform.ScaleX)" Value="1.0" />
+          <Setter Property="(ScaleTransform.ScaleY)" Value="1.0" />
+        </KeyFrame>
+      </Animation>
+    </Style.Animations>
+  </Style>
+
+  <Style Selector="Border.jogar-pill">
+    <Setter Property="Background" Value="{DynamicResource AppPrimaryGradientBrush}" />
+    <Setter Property="CornerRadius" Value="999" />
+    <Setter Property="Padding" Value="14,5" />
+  </Style>
+
+  <!-- ===================== Banner flutuante ===================== -->
+  <Style Selector="Border.toast-banner">
+    <Setter Property="Background" Value="{DynamicResource AppPrimaryGradientBrush}" />
+    <Setter Property="CornerRadius" Value="16" />
+    <Setter Property="Padding" Value="20,14" />
+    <Setter Property="BoxShadow" Value="0 12 30 0 #40000000" />
+  </Style>
+
+  <!-- ===================== Indicador de etapas ===================== -->
+  <Style Selector="Border.step-dot">
+    <Setter Property="Width" Value="12" />
+    <Setter Property="Height" Value="12" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="Background" Value="{DynamicResource AppBorderBrush}" />
+  </Style>
+  <Style Selector="Border.step-dot.ativo">
+    <Setter Property="Width" Value="28" />
+    <Setter Property="Background" Value="{DynamicResource AppPrimaryGradientBrush}" />
+  </Style>
+  <Style Selector="Border.step-dot.feito">
+    <Setter Property="Background" Value="{DynamicResource AppGreenBrush}" />
+  </Style>
+
   <!-- ===================== Cartões ===================== -->
   <Style Selector="Border.card">
     <Setter Property="Background" Value="{DynamicResource AppSurfaceBrush}" />
@@ -106,6 +203,17 @@
   </Style>
   <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
     <Setter Property="BorderBrush" Value="{DynamicResource AppOrangeBrush}" />
+  </Style>
+
+  <Style Selector="ComboBox">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceAltBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+    <Setter Property="BorderThickness" Value="2" />
+    <Setter Property="CornerRadius" Value="14" />
+    <Setter Property="Padding" Value="16,13" />
+    <Setter Property="FontSize" Value="15.5" />
+    <Setter Property="Foreground" Value="{DynamicResource AppTextPrimaryBrush}" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
   </Style>
 
   <Style Selector="CheckBox">
