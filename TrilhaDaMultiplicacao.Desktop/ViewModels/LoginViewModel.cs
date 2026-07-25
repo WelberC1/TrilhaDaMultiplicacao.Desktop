@@ -49,7 +49,7 @@ public partial class LoginViewModel : ViewModelBase
             await Task.Delay(500);
 
             _session.EntrarComo(Usuario.Trim());
-            _navigation.NavigateTo(_services.GetRequiredService<HomeViewModel>());
+            _navigation.NavigateTo(_services.GetRequiredService<TrilhaViewModel>());
         }
         finally
         {
@@ -58,8 +58,8 @@ public partial class LoginViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void CriarConta() => InfoMessage = "Essa novidade está a caminho! 🚧✨";
+    private void CriarConta() => _navigation.NavigateTo(_services.GetRequiredService<RegisterViewModel>());
 
     [RelayCommand]
-    private void EsqueceuSenha() => InfoMessage = "Essa novidade está a caminho! 🚧✨";
+    private void EsqueceuSenha() => _navigation.NavigateTo(_services.GetRequiredService<ForgotPasswordViewModel>());
 }

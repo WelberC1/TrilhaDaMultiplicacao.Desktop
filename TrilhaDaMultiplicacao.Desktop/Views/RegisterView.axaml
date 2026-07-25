@@ -1,0 +1,110 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:TrilhaDaMultiplicacao.Desktop.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1180" d:DesignHeight="760"
+             x:Class="TrilhaDaMultiplicacao.Desktop.Views.RegisterView"
+             x:DataType="vm:RegisterViewModel">
+
+    <Panel ClipToBounds="True">
+
+        <Border Background="{DynamicResource AppSceneGradientBrush}" />
+
+        <Canvas IsHitTestVisible="False">
+            <Border Canvas.Left="-40" Canvas.Top="-40" Width="200" Height="200" CornerRadius="100"
+                    Background="{DynamicResource AppBlueBrush}" Opacity="0.20" />
+            <Border Canvas.Left="990" Canvas.Top="-70" Width="250" Height="250" CornerRadius="125"
+                    Background="{DynamicResource AppYellowBrush}" Opacity="0.24" />
+            <Border Canvas.Left="1030" Canvas.Top="580" Width="180" Height="180" CornerRadius="90"
+                    Background="{DynamicResource AppRedBrush}" Opacity="0.16" />
+            <TextBlock Text="✖️" FontSize="60" FontWeight="Black" Canvas.Left="140" Canvas.Top="140"
+                       Foreground="{DynamicResource AppOrangeBrush}" Opacity="0.24">
+                <TextBlock.RenderTransform>
+                    <RotateTransform Angle="16" />
+                </TextBlock.RenderTransform>
+            </TextBlock>
+            <TextBlock Text="✨" FontSize="26" Canvas.Left="220" Canvas.Top="560" Opacity="0.6" />
+            <TextBlock Text="⭐" FontSize="22" Canvas.Left="950" Canvas.Top="360" Opacity="0.5" />
+        </Canvas>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40,28" Spacing="0">
+
+                <!-- ===================== Formulário ===================== -->
+                <StackPanel IsVisible="{Binding !CadastroConcluido}" Spacing="0" HorizontalAlignment="Center">
+                    <Border Width="92" Height="92" CornerRadius="46" HorizontalAlignment="Center" Margin="0,0,0,14"
+                            Background="{DynamicResource AppMascotGradientBrush}" BoxShadow="0 10 24 0 #40F5590C">
+                        <TextBlock Text="🚀" FontSize="44" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+
+                    <TextBlock Text="Crie seu perfil de explorador" Classes="h1" HorizontalAlignment="Center" TextAlignment="Center" />
+                    <TextBlock Text="Preencha os dados para começar sua jornada! 🎒" Classes="muted" HorizontalAlignment="Center" Margin="0,6,0,24" />
+
+                    <Border Classes="card" Width="460">
+                        <StackPanel Spacing="0">
+
+                            <TextBlock Text="🧒  NOME" Classes="field-label" />
+                            <TextBox Text="{Binding Nome}" PlaceholderText="Seu nome completo" Margin="0,0,0,16" />
+
+                            <Grid ColumnDefinitions="*,*" Margin="0,0,0,16">
+                                <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                                    <TextBlock Text="👤  USUÁRIO" Classes="field-label" />
+                                    <TextBox Text="{Binding Usuario}" PlaceholderText="Escolha um usuário" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                                    <TextBlock Text="📧  E-MAIL" Classes="field-label" />
+                                    <TextBox Text="{Binding Email}" PlaceholderText="seuemail@exemplo.com" />
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid ColumnDefinitions="*,*" Margin="0,0,0,16">
+                                <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                                    <TextBlock Text="🔒  SENHA" Classes="field-label" />
+                                    <TextBox Text="{Binding Senha}" PasswordChar="●" PlaceholderText="Crie uma senha" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                                    <TextBlock Text="🔒  CONFIRMAR" Classes="field-label" />
+                                    <TextBox Text="{Binding ConfirmarSenha}" PasswordChar="●" PlaceholderText="Repita a senha" />
+                                </StackPanel>
+                            </Grid>
+
+                            <TextBlock Text="🛟  PERGUNTA DE SEGURANÇA" Classes="field-label" />
+                            <ComboBox ItemsSource="{Binding PerguntasSeguranca}" SelectedItem="{Binding PerguntaSelecionada}"
+                                      HorizontalAlignment="Stretch" Margin="0,0,0,16" />
+
+                            <TextBlock Text="✏️  SUA RESPOSTA" Classes="field-label" />
+                            <TextBox Text="{Binding RespostaSeguranca}" PlaceholderText="Isso vai te ajudar a recuperar a senha" Margin="0,0,0,6" />
+
+                            <TextBlock Text="{Binding ErrorMessage}" Classes="error-text" IsVisible="{Binding HasError}" Margin="0,6,0,6" />
+
+                            <Button Content="Criar minha conta! 🎉" Classes="primary" Command="{Binding CriarContaCommand}"
+                                    IsEnabled="{Binding !IsBusy}"
+                                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="0,12,0,0" />
+
+                            <ProgressBar IsIndeterminate="True" Height="4" CornerRadius="2" Margin="0,10,0,0"
+                                         Foreground="{DynamicResource AppOrangeBrush}" Background="Transparent"
+                                         IsVisible="{Binding IsBusy}" />
+
+                            <Button Content="← Já tenho conta, voltar ao login" Classes="link" Command="{Binding IrParaLoginCommand}"
+                                    HorizontalAlignment="Center" Margin="0,20,0,0" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- ===================== Sucesso ===================== -->
+                <StackPanel IsVisible="{Binding CadastroConcluido}" Spacing="0" HorizontalAlignment="Center">
+                    <Border Width="120" Height="120" CornerRadius="60" HorizontalAlignment="Center" Margin="0,0,0,20"
+                            Background="{DynamicResource AppGreenBrush}" BoxShadow="0 14 30 0 #402FC48D">
+                        <TextBlock Text="🎉" FontSize="56" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <TextBlock Text="Conta criada com sucesso!" Classes="h1" HorizontalAlignment="Center" TextAlignment="Center" />
+                    <TextBlock Text="Agora é só entrar e começar a explorar a trilha! 🗺️" Classes="muted"
+                               HorizontalAlignment="Center" TextAlignment="Center" Margin="0,6,0,26" />
+                    <Button Content="Ir para o login 🚪" Classes="primary" Command="{Binding IrParaLoginCommand}"
+                            HorizontalAlignment="Center" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Panel>
+</UserControl>
