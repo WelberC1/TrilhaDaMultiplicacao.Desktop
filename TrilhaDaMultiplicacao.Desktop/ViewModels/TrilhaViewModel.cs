@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,16 +17,10 @@ public partial class TrilhaViewModel : ViewModelBase
 
     public ObservableCollection<FaseNode> Fases { get; }
 
-    public Points TrilhaPontos { get; }
-
     public int TotalEstrelas => Fases.Sum(f => f.Estrelas);
-
-    public double CanvasWidth { get; } = 760;
-    public double CanvasHeight { get; }
-
-    public double PrimeiraFaseX => Fases.Count > 0 ? Fases[0].X : 0;
-    public double UltimaFaseX => Fases.Count > 0 ? Fases[^1].X : 0;
-    public double UltimaFaseY => Fases.Count > 0 ? Fases[^1].Y : 0;
+    public int TotalFases => Fases.Count;
+    public int FasesConcluidas => Fases.Count(f => f.EhConcluida);
+    public double ProgressoPercentual => TotalFases == 0 ? 0 : 100.0 * FasesConcluidas / TotalFases;
 
     [ObservableProperty]
     public partial string? InfoMessage { get; set; }
@@ -43,8 +36,6 @@ public partial class TrilhaViewModel : ViewModelBase
         _services = services;
 
         Fases = new ObservableCollection<FaseNode>(CriarFases(_session));
-        TrilhaPontos = new Points(Fases.Select(f => new Point(f.Centro, f.CentroY)));
-        CanvasHeight = Fases.Count > 0 ? Fases[^1].Y + 220 : 400;
     }
 
     private static IEnumerable<FaseNode> CriarFases(SessionService session)
@@ -65,12 +56,12 @@ public partial class TrilhaViewModel : ViewModelBase
             ("Operações com 3 Dígitos", TipoDesafio.Calculo),
         };
 
-        const double centerX = 320;
-        const double amplitude = 230;
-        const double ySpacing = 165;
-        const double yStart = 50;
+        const double centerX = 285;
+        const double amplitude = 190;
 
         var desbloqueando = true;
+        double centroAnterior = 0;
+        var anteriorConcluida = false;
 
         for (var i = 0; i < definicoes.Length; i++)
         {
@@ -93,9 +84,11 @@ public partial class TrilhaViewModel : ViewModelBase
                 status = FaseStatus.Bloqueada;
             }
 
-            var x = centerX + amplitude * Math.Sin((i + 0.5) * 0.85) - 42;
+            var x = centerX + amplitude * Math.Sin((i + 0.5) * 0.85) - 44;
+            var tamanho = status == FaseStatus.Disponivel ? 108 : 88;
+            var centro = x + tamanho / 2;
 
-            yield return new FaseNode
+            var fase = new FaseNode
             {
                 Numero = numero,
                 Titulo = titulo,
@@ -103,8 +96,14 @@ public partial class TrilhaViewModel : ViewModelBase
                 Status = status,
                 Estrelas = estrelas ?? 0,
                 X = x,
-                Y = yStart + i * ySpacing
+                CentroAnterior = centroAnterior,
+                TemConector = i > 0,
+                ConectorFeito = i > 0 && anteriorConcluida
             };
+
+            centroAnterior = centro;
+            anteriorConcluida = status == FaseStatus.Concluida;
+            yield return fase;
         }
     }
 
@@ -114,6 +113,14 @@ public partial class TrilhaViewModel : ViewModelBase
         if (fase.Status == FaseStatus.Disponivel && fase.Tipo == TipoDesafio.Interpretacao)
         {
             var jogo = _services.GetRequiredService<InterpretacaoViewModel>();
+            jogo.Configurar(fase.Numero, fase.Titulo);
+            _navigation.NavigateTo(jogo);
+            return;
+        }
+
+        if (fase.Status == FaseStatus.Disponivel && fase.Tipo == TipoDesafio.Calculo)
+        {
+            var jogo = _services.GetRequiredService<CalculoViewModel>();
             jogo.Configurar(fase.Numero, fase.Titulo);
             _navigation.NavigateTo(jogo);
             return;
