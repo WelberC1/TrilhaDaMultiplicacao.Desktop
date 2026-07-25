@@ -22,7 +22,7 @@
             <TextBlock Text="✨" FontSize="22" Canvas.Left="60" Canvas.Top="440" Opacity="0.5" />
         </Canvas>
 
-        <Grid RowDefinitions="Auto,*">
+        <Grid RowDefinitions="Auto,Auto,*">
 
             <!-- ===================== Cabeçalho ===================== -->
             <Border Grid.Row="0" Classes="card" Margin="24,20,24,10" Padding="18,14">
@@ -51,46 +51,58 @@
                 </Grid>
             </Border>
 
-            <!-- ===================== Trilha de fases ===================== -->
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                <Canvas Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}"
-                        HorizontalAlignment="Center" Margin="0,6,0,40">
+            <!-- ===================== Resumo de progresso ===================== -->
+            <Border Grid.Row="1" Classes="card" Margin="24,0,24,14" Padding="18,14">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <TextBlock Grid.Column="0" Text="🗺️" FontSize="20" VerticalAlignment="Center" Margin="0,0,12,0" />
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="6">
+                        <TextBlock Classes="muted" FontWeight="SemiBold">
+                            <Run Text="Seu progresso: " />
+                            <Run Text="{Binding FasesConcluidas}" FontWeight="Bold" />
+                            <Run Text=" de " />
+                            <Run Text="{Binding TotalFases}" FontWeight="Bold" />
+                            <Run Text=" fases concluídas" />
+                        </TextBlock>
+                        <ProgressBar Value="{Binding ProgressoPercentual}" Minimum="0" Maximum="100"
+                                     Height="10" CornerRadius="5"
+                                     Foreground="{DynamicResource AppPrimaryGradientBrush}"
+                                     Background="{DynamicResource AppSurfaceAltBrush}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
 
-                    <Polyline Points="{Binding TrilhaPontos}"
-                              Stroke="{DynamicResource AppBorderBrush}"
-                              StrokeThickness="8"
-                              StrokeDashArray="0.1,20"
-                              StrokeJoin="Round"
-                              StrokeLineCap="Round" />
+            <!-- ===================== Trilha de fases ===================== -->
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel HorizontalAlignment="Center" Margin="0,6,0,50" Spacing="0">
 
                     <TextBlock Text="🏁 Comece aqui!" FontWeight="Bold" FontSize="13"
                                Foreground="{DynamicResource AppTextSecondaryBrush}"
-                               Canvas.Left="{Binding PrimeiraFaseX}" Canvas.Top="8" />
-
-                    <TextBlock Text="🏆" FontSize="40"
-                               Canvas.Left="{Binding UltimaFaseX}" Canvas.Top="{Binding UltimaFaseY}"
-                               Opacity="0.8" />
+                               HorizontalAlignment="Center" Margin="0,0,0,4" />
 
                     <ItemsControl ItemsSource="{Binding Fases}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <Canvas />
+                                <StackPanel Orientation="Vertical" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
 
-                        <ItemsControl.ItemContainerTheme>
-                            <ControlTheme TargetType="ContentPresenter" x:DataType="models:FaseNode">
-                                <Setter Property="Canvas.Left" Value="{Binding X}" />
-                                <Setter Property="Canvas.Top" Value="{Binding Y}" />
-                            </ControlTheme>
-                        </ItemsControl.ItemContainerTheme>
-
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="models:FaseNode">
-                                <Panel Width="150">
-                                    <StackPanel HorizontalAlignment="Center" Spacing="6" Width="150">
+                                <Grid RowDefinitions="Auto,Auto" Width="{x:Static models:FaseNode.LinhaLargura}">
 
-                                        <Panel Width="{Binding Tamanho}" Height="{Binding Tamanho}" HorizontalAlignment="Center">
+                                    <!-- Conector + nó -->
+                                    <Canvas Grid.Row="0" Height="{x:Static models:FaseNode.LinhaAltura}" ClipToBounds="False">
+                                        <Line IsVisible="{Binding TemConector}"
+                                              StartPoint="{Binding PontoConectorInicio}" EndPoint="{Binding PontoConectorFim}"
+                                              Stroke="{Binding CorConector}" StrokeThickness="7"
+                                              StrokeDashArray="1,16" StrokeLineCap="Round" />
+
+                                        <Panel Canvas.Left="{Binding X}" Canvas.Top="{Binding TopoNode}"
+                                               Width="{Binding Tamanho}" Height="{Binding Tamanho}">
+                                            <Border IsVisible="{Binding EhDisponivel}" CornerRadius="999"
+                                                    Background="{DynamicResource AppYellowBrush}" Opacity="0.30"
+                                                    Margin="-10" />
+
                                             <Button Classes="fase-node"
                                                     Classes.disponivel="{Binding EhDisponivel}"
                                                     Classes.bloqueada="{Binding EhBloqueada}"
@@ -99,22 +111,33 @@
                                                     ToolTip.Tip="{Binding Titulo}"
                                                     Command="{Binding #Root.((vm:TrilhaViewModel)DataContext).AbrirFaseCommand}"
                                                     CommandParameter="{Binding}">
-                                                <TextBlock Text="{Binding Glyph}" FontSize="30"
+                                                <TextBlock Text="{Binding Glyph}" FontSize="32"
                                                            HorizontalAlignment="Center" VerticalAlignment="Center" />
                                             </Button>
 
-                                            <Border IsVisible="{Binding EhConcluida}" Width="28" Height="28" CornerRadius="14"
+                                            <Border IsVisible="{Binding EhConcluida}" Width="30" Height="30" CornerRadius="15"
                                                     Background="{DynamicResource AppGreenBrush}"
                                                     BorderBrush="White" BorderThickness="3"
                                                     HorizontalAlignment="Right" VerticalAlignment="Top"
-                                                    Margin="0,-4,-4,0">
-                                                <TextBlock Text="✓" FontSize="13" FontWeight="Bold" Foreground="White"
+                                                    Margin="0,-6,-6,0">
+                                                <TextBlock Text="✓" FontSize="14" FontWeight="Bold" Foreground="White"
                                                            HorizontalAlignment="Center" VerticalAlignment="Center" />
                                             </Border>
-                                        </Panel>
 
+                                            <Border Background="{DynamicResource AppSurfaceBrush}" CornerRadius="999"
+                                                    Padding="9,3" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                                                    Margin="0,0,0,-12" BoxShadow="0 2 6 0 #26243A66">
+                                                <TextBlock Text="{Binding Numero}" FontSize="11" FontWeight="Bold"
+                                                           Foreground="{DynamicResource AppTextSecondaryBrush}" />
+                                            </Border>
+                                        </Panel>
+                                    </Canvas>
+
+                                    <!-- Rótulo -->
+                                    <StackPanel Grid.Row="1" Width="156" HorizontalAlignment="Left"
+                                                Margin="{Binding MargemRotulo}" Spacing="4">
                                         <TextBlock Text="{Binding Titulo}" Classes="muted" FontWeight="SemiBold"
-                                                   TextAlignment="Center" TextWrapping="Wrap" Width="146" FontSize="12.5"
+                                                   TextAlignment="Center" TextWrapping="Wrap" FontSize="12.5"
                                                    Foreground="{DynamicResource AppTextPrimaryBrush}" />
 
                                         <TextBlock Text="{Binding Estrelinhas}" IsVisible="{Binding EhConcluida}"
@@ -125,11 +148,13 @@
                                             <TextBlock Text="JOGAR" FontSize="11" FontWeight="Bold" Foreground="White" />
                                         </Border>
                                     </StackPanel>
-                                </Panel>
+                                </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </Canvas>
+
+                    <TextBlock Text="🏆" FontSize="42" HorizontalAlignment="Center" Margin="0,20,0,0" Opacity="0.85" />
+                </StackPanel>
             </ScrollViewer>
         </Grid>
 
