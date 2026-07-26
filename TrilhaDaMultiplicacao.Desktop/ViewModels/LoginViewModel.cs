@@ -12,7 +12,7 @@ public partial class LoginViewModel : ViewModelBase
     private readonly IServiceProvider _services;
 
     [ObservableProperty]
-    public partial string Usuario { get; set; } = string.Empty;
+    public partial string Email { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string Senha { get; set; } = string.Empty;
@@ -31,25 +31,27 @@ public partial class LoginViewModel : ViewModelBase
         _services = services;
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task EntrarAsync()
     {
         ErrorMessage = null;
         InfoMessage = null;
 
-        if (string.IsNullOrWhiteSpace(Usuario) || string.IsNullOrWhiteSpace(Senha))
+        if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Senha))
         {
-            ErrorMessage = "Ops! Preencha seu usuário e sua senha para continuar. 🙂";
+            ErrorMessage = "Ops! Preencha seu e-mail e sua senha para continuar. 🙂";
             return;
         }
 
         IsBusy = true;
         try
         {
-            await Task.Delay(500);
-
-            _session.EntrarComo(Usuario.Trim());
+            await _session.LoginAsync(Email.Trim(), Senha);
             _navigation.NavigateTo(_services.GetRequiredService<ShellViewModel>());
+        }
+        catch (ApiRequestException ex)
+        {
+            ErrorMessage = ex.Message;
         }
         finally
         {

@@ -8,13 +8,14 @@ namespace TrilhaDaMultiplicacao.Desktop.ViewModels;
 public enum EtapaRecuperacao
 {
     Email,
-    Pergunta,
+    Codigo,
     NovaSenha,
     Concluido
 }
 
 public partial class ForgotPasswordViewModel : ViewModelBase
 {
+    private readonly SessionService _session;
     private readonly NavigationService _navigation;
     private readonly IServiceProvider _services;
 
@@ -25,10 +26,7 @@ public partial class ForgotPasswordViewModel : ViewModelBase
     public partial string Email { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial string PerguntaExibida { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string RespostaSeguranca { get; set; } = string.Empty;
+    public partial string Codigo { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string NovaSenha { get; set; } = string.Empty;
@@ -37,18 +35,18 @@ public partial class ForgotPasswordViewModel : ViewModelBase
     public partial string ConfirmarNovaSenha { get; set; } = string.Empty;
 
     public bool NoEmail => Etapa == EtapaRecuperacao.Email;
-    public bool NaPergunta => Etapa == EtapaRecuperacao.Pergunta;
+    public bool NoCodigo => Etapa == EtapaRecuperacao.Codigo;
     public bool NaNovaSenha => Etapa == EtapaRecuperacao.NovaSenha;
     public bool NoConcluido => Etapa == EtapaRecuperacao.Concluido;
 
     public bool Passo1Feito => Etapa > EtapaRecuperacao.Email;
-    public bool Passo2Feito => Etapa > EtapaRecuperacao.Pergunta;
+    public bool Passo2Feito => Etapa > EtapaRecuperacao.Codigo;
     public bool Passo3Feito => Etapa > EtapaRecuperacao.NovaSenha;
 
     partial void OnEtapaChanged(EtapaRecuperacao value)
     {
         OnPropertyChanged(nameof(NoEmail));
-        OnPropertyChanged(nameof(NaPergunta));
+        OnPropertyChanged(nameof(NoCodigo));
         OnPropertyChanged(nameof(NaNovaSenha));
         OnPropertyChanged(nameof(NoConcluido));
         OnPropertyChanged(nameof(Passo1Feito));
@@ -56,14 +54,15 @@ public partial class ForgotPasswordViewModel : ViewModelBase
         OnPropertyChanged(nameof(Passo3Feito));
     }
 
-    public ForgotPasswordViewModel(NavigationService navigation, IServiceProvider services)
+    public ForgotPasswordViewModel(SessionService session, NavigationService navigation, IServiceProvider services)
     {
+        _session = session;
         _navigation = navigation;
         _services = services;
     }
 
-    [RelayCommand]
-    private void AvancarEmail()
+    [RelayCommand(AllowConcurrentExecutions = false)]
+    private async Task AvancarEmailAsync()
     {
         ErrorMessage = null;
 
@@ -73,25 +72,37 @@ public partial class ForgotPasswordViewModel : ViewModelBase
             return;
         }
 
-        PerguntaExibida = "Qual o nome do seu primeiro bichinho de estimação?";
-        Etapa = EtapaRecuperacao.Pergunta;
+        IsBusy = true;
+        try
+        {
+            await _session.EsqueciSenhaAsync(Email.Trim());
+            Etapa = EtapaRecuperacao.Codigo;
+        }
+        catch (ApiRequestException ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     [RelayCommand]
-    private void AvancarPergunta()
+    private void AvancarCodigo()
     {
         ErrorMessage = null;
 
-        if (string.IsNullOrWhiteSpace(RespostaSeguranca))
+        if (string.IsNullOrWhiteSpace(Codigo))
         {
-            ErrorMessage = "Responda a pergunta de segurança para continuar. 🤔";
+            ErrorMessage = "Digite o código que enviamos para o seu e-mail. 📩";
             return;
         }
 
         Etapa = EtapaRecuperacao.NovaSenha;
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task ConcluirAsync()
     {
         ErrorMessage = null;
@@ -108,11 +119,21 @@ public partial class ForgotPasswordViewModel : ViewModelBase
             return;
         }
 
+        if (NovaSenha.Length < 6)
+        {
+            ErrorMessage = "A senha precisa ter pelo menos 6 caracteres. 🔒";
+            return;
+        }
+
         IsBusy = true;
         try
         {
-            await Task.Delay(600);
+            await _session.RedefinirSenhaAsync(Email.Trim(), Codigo.Trim(), NovaSenha);
             Etapa = EtapaRecuperacao.Concluido;
+        }
+        catch (ApiRequestException ex)
+        {
+            ErrorMessage = ex.Message;
         }
         finally
         {

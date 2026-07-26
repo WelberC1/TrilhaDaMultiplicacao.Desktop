@@ -47,18 +47,10 @@
                             <TextBlock Text="🧒  NOME" Classes="field-label" />
                             <TextBox Text="{Binding Nome}" PlaceholderText="Seu nome completo" Margin="0,0,0,16" />
 
-                            <Grid ColumnDefinitions="*,*" Margin="0,0,0,16">
-                                <StackPanel Grid.Column="0" Margin="0,0,8,0">
-                                    <TextBlock Text="👤  USUÁRIO" Classes="field-label" />
-                                    <TextBox Text="{Binding Usuario}" PlaceholderText="Escolha um usuário" />
-                                </StackPanel>
-                                <StackPanel Grid.Column="1" Margin="8,0,0,0">
-                                    <TextBlock Text="📧  E-MAIL" Classes="field-label" />
-                                    <TextBox Text="{Binding Email}" PlaceholderText="seuemail@exemplo.com" />
-                                </StackPanel>
-                            </Grid>
+                            <TextBlock Text="📧  E-MAIL" Classes="field-label" />
+                            <TextBox Text="{Binding Email}" PlaceholderText="seuemail@exemplo.com" Margin="0,0,0,16" />
 
-                            <Grid ColumnDefinitions="*,*" Margin="0,0,0,16">
+                            <Grid ColumnDefinitions="*,*" Margin="0,0,0,6">
                                 <StackPanel Grid.Column="0" Margin="0,0,8,0">
                                     <TextBlock Text="🔒  SENHA" Classes="field-label" />
                                     <TextBox Text="{Binding Senha}" PasswordChar="●" PlaceholderText="Crie uma senha" />
@@ -68,13 +60,6 @@
                                     <TextBox Text="{Binding ConfirmarSenha}" PasswordChar="●" PlaceholderText="Repita a senha" />
                                 </StackPanel>
                             </Grid>
-
-                            <TextBlock Text="🛟  PERGUNTA DE SEGURANÇA" Classes="field-label" />
-                            <ComboBox ItemsSource="{Binding PerguntasSeguranca}" SelectedItem="{Binding PerguntaSelecionada}"
-                                      HorizontalAlignment="Stretch" Margin="0,0,0,16" />
-
-                            <TextBlock Text="✏️  SUA RESPOSTA" Classes="field-label" />
-                            <TextBox Text="{Binding RespostaSeguranca}" PlaceholderText="Isso vai te ajudar a recuperar a senha" Margin="0,0,0,6" />
 
                             <TextBlock Text="{Binding ErrorMessage}" Classes="error-text" IsVisible="{Binding HasError}" Margin="0,6,0,6" />
 

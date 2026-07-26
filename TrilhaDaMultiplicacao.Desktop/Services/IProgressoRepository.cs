@@ -16,6 +16,6 @@ public interface IProgressoRepository
     int PontosTotais { get; }
     IReadOnlyDictionary<int, int> TodasEstrelas { get; }
 
-    void AtualizarPerfil(string nome, string email, string avatarEmoji);
+    Task AtualizarPerfilAsync(string nome, string email, string avatarEmoji);
     IReadOnlyList<RankingEntrada> ObterRanking();
 }
