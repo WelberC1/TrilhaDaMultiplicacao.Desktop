@@ -47,8 +47,16 @@
                             <TextBlock Text="🧒  NOME" Classes="field-label" />
                             <TextBox Text="{Binding Nome}" PlaceholderText="Seu nome completo" Margin="0,0,0,16" />
 
-                            <TextBlock Text="📧  E-MAIL" Classes="field-label" />
-                            <TextBox Text="{Binding Email}" PlaceholderText="seuemail@exemplo.com" Margin="0,0,0,16" />
+                            <Grid ColumnDefinitions="*,*" Margin="0,0,0,16">
+                                <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                                    <TextBlock Text="👤  USUÁRIO" Classes="field-label" />
+                                    <TextBox Text="{Binding Usuario}" PlaceholderText="Escolha um usuário" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                                    <TextBlock Text="📧  E-MAIL" Classes="field-label" />
+                                    <TextBox Text="{Binding Email}" PlaceholderText="seuemail@exemplo.com" />
+                                </StackPanel>
+                            </Grid>
 
                             <Grid ColumnDefinitions="*,*" Margin="0,0,0,6">
                                 <StackPanel Grid.Column="0" Margin="0,0,8,0">

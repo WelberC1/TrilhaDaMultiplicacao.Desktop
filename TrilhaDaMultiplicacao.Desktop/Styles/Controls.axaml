@@ -321,10 +321,14 @@
     </Style.Animations>
   </Style>
 
-  <Style Selector="Border.jogar-pill">
+  <Style Selector="Button.jogar-pill">
     <Setter Property="Background" Value="{DynamicResource AppPrimaryGradientBrush}" />
     <Setter Property="CornerRadius" Value="999" />
     <Setter Property="Padding" Value="14,5" />
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
+  <Style Selector="Button.jogar-pill:pointerover">
+    <Setter Property="RenderTransform" Value="scale(1.05)" />
   </Style>
 
   <!-- ===================== Banner flutuante ===================== -->
