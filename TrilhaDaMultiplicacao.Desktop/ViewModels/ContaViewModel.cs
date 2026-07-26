@@ -71,8 +71,8 @@ public partial class ContaViewModel : ViewModelBase
         foreach (var opcao in Avatares) opcao.Selecionado = opcao.Emoji == emoji;
     }
 
-    [RelayCommand]
-    private void SalvarPerfil()
+    [RelayCommand(AllowConcurrentExecutions = false)]
+    private async Task SalvarPerfilAsync()
     {
         MensagemPerfil = null;
         ErrorMessage = null;
@@ -83,14 +83,26 @@ public partial class ContaViewModel : ViewModelBase
             return;
         }
 
-        if (!string.IsNullOrWhiteSpace(Email) && !Email.Contains('@'))
+        if (string.IsNullOrWhiteSpace(Email) || !Email.Contains('@'))
         {
-            ErrorMessage = "Digite um e-mail válido, ou deixe o campo vazio. 📧";
+            ErrorMessage = "Digite um e-mail válido para continuar. 📧";
             return;
         }
 
-        _progresso.AtualizarPerfil(Nome.Trim(), Email.Trim(), AvatarSelecionado);
-        MensagemPerfil = "✅ Perfil atualizado com sucesso!";
+        IsBusy = true;
+        try
+        {
+            await _progresso.AtualizarPerfilAsync(Nome.Trim(), Email.Trim(), AvatarSelecionado);
+            MensagemPerfil = "✅ Perfil atualizado com sucesso!";
+        }
+        catch (ApiRequestException ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     [RelayCommand]

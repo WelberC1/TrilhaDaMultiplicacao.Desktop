@@ -36,6 +36,7 @@ public partial class App : Application
 
     private static void ConfigureServices(IServiceCollection services)
     {
+        services.AddHttpClient<ApiClient>(client => client.BaseAddress = new Uri(ApiClient.BaseUrl));
         services.AddSingleton<SessionService>();
         services.AddSingleton<IProgressoRepository>(sp => sp.GetRequiredService<SessionService>());
         services.AddSingleton<NavigationService>();

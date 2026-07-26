@@ -1,8 +1,9 @@
 using TrilhaDaMultiplicacao.Desktop.Models;
+using TrilhaDaMultiplicacao.Desktop.Models.Api;
 
 namespace TrilhaDaMultiplicacao.Desktop.Services;
 
-public class SessionService : IProgressoRepository
+public class SessionService(ApiClient api) : IProgressoRepository
 {
     private static readonly string[] NomesMockRanking =
     [
@@ -15,8 +16,8 @@ public class SessionService : IProgressoRepository
 
     private readonly Random _random = new();
     private readonly Dictionary<int, int> _estrelasPorFase = new();
-    private readonly Dictionary<int, int> _pontosPorFase = new();
     private List<RankingEntrada>? _competidoresMock;
+    private string? _token;
 
     public string? AlunoNome { get; private set; }
     public string Email { get; private set; } = string.Empty;
@@ -25,45 +26,52 @@ public class SessionService : IProgressoRepository
 
     public IReadOnlyDictionary<int, int> TodasEstrelas => _estrelasPorFase;
 
-    public void EntrarComo(string nome)
+    // -------- Autenticação e perfil: fala com a API de verdade --------
+
+    public async Task LoginAsync(string email, string senha)
     {
-        AlunoNome = nome;
+        var resultado = await api.PostAsync<LoginRequest, AuthResponse>(
+            "/api/auth/login", new LoginRequest(email, senha));
 
-        if (_estrelasPorFase.Count == 0)
-        {
-            _estrelasPorFase[3] = 3;
-            _pontosPorFase[3] = PontosDeEstrelas(3);
-            PontosTotais = _pontosPorFase.Values.Sum();
-        }
+        AplicarSessao(resultado);
+    }
 
-        _competidoresMock = null;
+    public async Task RegistrarAsync(string nome, string email, string senha)
+    {
+        await api.PostAsync<RegistrarRequest, AuthResponse>(
+            "/api/auth/registrar", new RegistrarRequest(nome, email, senha));
+    }
+
+    public async Task EsqueciSenhaAsync(string email) =>
+        await api.PostAsync("/api/auth/esqueci-senha", new EsqueciSenhaRequest(email));
+
+    public async Task RedefinirSenhaAsync(string email, string codigo, string novaSenha) =>
+        await api.PostAsync("/api/auth/redefinir-senha", new RedefinirSenhaRequest(email, codigo, novaSenha));
+
+    public async Task AtualizarPerfilAsync(string nome, string email, string avatarEmoji)
+    {
+        var resultado = await api.PutAsync<AtualizarPerfilRequest, AlunoResponseDto>(
+            "/api/alunos/me", new AtualizarPerfilRequest(nome, email, avatarEmoji), _token!);
+
+        AplicarPerfil(resultado);
     }
 
     public void Sair()
     {
+        _token = null;
         AlunoNome = null;
         Email = string.Empty;
         AvatarEmoji = "🦉";
         PontosTotais = 0;
         _estrelasPorFase.Clear();
-        _pontosPorFase.Clear();
         _competidoresMock = null;
     }
 
-    public void AtualizarPerfil(string nome, string email, string avatarEmoji)
-    {
-        AlunoNome = nome;
-        Email = email;
-        AvatarEmoji = avatarEmoji;
-    }
+    // -------- Progresso/ranking: continuam mockados até a Fase 2 --------
 
     public void RegistrarConclusaoFase(int numeroFase, int estrelas)
     {
         _estrelasPorFase[numeroFase] = Math.Max(estrelas, _estrelasPorFase.GetValueOrDefault(numeroFase));
-
-        var pontos = PontosDeEstrelas(estrelas);
-        _pontosPorFase[numeroFase] = Math.Max(pontos, _pontosPorFase.GetValueOrDefault(numeroFase));
-        PontosTotais = _pontosPorFase.Values.Sum();
     }
 
     public int? EstrelasDaFase(int numeroFase) =>
@@ -90,8 +98,6 @@ public class SessionService : IProgressoRepository
         return entradas;
     }
 
-    private static int PontosDeEstrelas(int estrelas) => 20 + estrelas * 30;
-
     private List<RankingEntrada> GerarCompetidoresMock()
     {
         var nomes = NomesMockRanking.OrderBy(_ => _random.Next()).Take(9).ToList();
@@ -103,5 +109,19 @@ public class SessionService : IProgressoRepository
             AvatarEmoji = AvataresMockRanking[_random.Next(AvataresMockRanking.Length)],
             Pontos = _random.Next(20, 620)
         }).ToList();
+    }
+
+    private void AplicarSessao(AuthResponse resposta)
+    {
+        _token = resposta.Token;
+        AplicarPerfil(resposta.Aluno);
+    }
+
+    private void AplicarPerfil(AlunoResponseDto aluno)
+    {
+        AlunoNome = aluno.Nome;
+        Email = aluno.Email;
+        AvatarEmoji = aluno.AvatarEmoji;
+        PontosTotais = aluno.PontosTotais;
     }
 }
