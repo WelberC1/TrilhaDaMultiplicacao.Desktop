@@ -194,6 +194,62 @@
     <Setter Property="Foreground" Value="White" />
   </Style>
 
+  <!-- ===================== Jogo: Memória Numérica ===================== -->
+  <Style Selector="Button.memory-card">
+    <Setter Property="Width" Value="122" />
+    <Setter Property="Height" Value="92" />
+    <Setter Property="Margin" Value="7" />
+    <Setter Property="CornerRadius" Value="16" />
+    <Setter Property="Padding" Value="6" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Background" Value="{DynamicResource AppBlueGradientBrush}" />
+    <Setter Property="Foreground" Value="White" />
+    <Setter Property="FontSize" Value="17" />
+    <Setter Property="FontWeight" Value="ExtraBold" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="RenderTransform" Value="scale(1)" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background" Duration="0:0:0.2" />
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2" Easing="BackEaseOut" />
+      </Transitions>
+    </Setter>
+  </Style>
+  <Style Selector="Button.memory-card:pointerover">
+    <Setter Property="RenderTransform" Value="scale(1.05)" />
+  </Style>
+  <Style Selector="Button.memory-card:disabled">
+    <Setter Property="Opacity" Value="1" />
+  </Style>
+  <Style Selector="Button.memory-card.revelada">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceBrush}" />
+    <Setter Property="Foreground" Value="{DynamicResource AppTextPrimaryBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBlueBrush}" />
+    <Setter Property="BorderThickness" Value="3" />
+  </Style>
+  <Style Selector="Button.memory-card.revelada">
+    <Setter Property="RenderTransform" Value="scale(1)" />
+    <Style.Animations>
+      <Animation Duration="0:0:0.3" IterationCount="1" Easing="BackEaseOut">
+        <KeyFrame Cue="0%">
+          <Setter Property="(ScaleTransform.ScaleX)" Value="0.6" />
+          <Setter Property="(ScaleTransform.ScaleY)" Value="0.6" />
+        </KeyFrame>
+        <KeyFrame Cue="100%">
+          <Setter Property="(ScaleTransform.ScaleX)" Value="1.0" />
+          <Setter Property="(ScaleTransform.ScaleY)" Value="1.0" />
+        </KeyFrame>
+      </Animation>
+    </Style.Animations>
+  </Style>
+  <Style Selector="Button.memory-card.combinada">
+    <Setter Property="Background" Value="{DynamicResource AppGreenBrush}" />
+    <Setter Property="Foreground" Value="White" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Opacity" Value="0.9" />
+  </Style>
+
   <!-- ===================== Nós da trilha ===================== -->
   <Style Selector="Button.fase-node">
     <Setter Property="CornerRadius" Value="999" />

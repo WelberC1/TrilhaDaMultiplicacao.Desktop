@@ -70,6 +70,11 @@
     <GradientStop Offset="1" Color="{StaticResource AppColorVioletDeep}" />
   </LinearGradientBrush>
 
+  <LinearGradientBrush x:Key="AppBlueGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+    <GradientStop Offset="0" Color="#5B9BFF" />
+    <GradientStop Offset="1" Color="#1E4FD1" />
+  </LinearGradientBrush>
+
   <!-- Botão principal / mascote -->
   <LinearGradientBrush x:Key="AppPrimaryGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
     <GradientStop Offset="0" Color="#FFA24D" />

@@ -134,6 +134,14 @@ public partial class TrilhaViewModel : ViewModelBase
             return;
         }
 
+        if (fase.Status == FaseStatus.Disponivel && fase.Tipo == TipoDesafio.Memoria)
+        {
+            var jogo = _services.GetRequiredService<MemoriaViewModel>();
+            jogo.Configurar(fase.Numero, fase.Titulo);
+            _navigation.NavigateTo(jogo);
+            return;
+        }
+
         InfoMessage = fase.Status switch
         {
             FaseStatus.Bloqueada => $"🔒 Complete as fases anteriores para desbloquear \"{fase.Titulo}\"!",
