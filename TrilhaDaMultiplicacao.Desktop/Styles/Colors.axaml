@@ -75,6 +75,11 @@
     <GradientStop Offset="1" Color="#1E4FD1" />
   </LinearGradientBrush>
 
+  <LinearGradientBrush x:Key="AppRedGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+    <GradientStop Offset="0" Color="#FF7A7E" />
+    <GradientStop Offset="1" Color="#E63238" />
+  </LinearGradientBrush>
+
   <!-- Botão principal / mascote -->
   <LinearGradientBrush x:Key="AppPrimaryGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
     <GradientStop Offset="0" Color="#FFA24D" />

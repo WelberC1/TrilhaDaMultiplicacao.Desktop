@@ -1,0 +1,94 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:TrilhaDaMultiplicacao.Desktop.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1180" d:DesignHeight="760"
+             x:Class="TrilhaDaMultiplicacao.Desktop.Views.RaciocinioView"
+             x:Name="Root"
+             x:DataType="vm:RaciocinioViewModel">
+
+    <Panel ClipToBounds="True">
+
+        <Border Background="{DynamicResource AppSceneGradientBrush}" />
+
+        <Canvas IsHitTestVisible="False">
+            <Border Canvas.Left="-50" Canvas.Top="-50" Width="210" Height="210" CornerRadius="105"
+                    Background="{DynamicResource AppRedGradientBrush}" Opacity="0.14" />
+            <Border Canvas.Left="1010" Canvas.Top="-60" Width="230" Height="230" CornerRadius="115"
+                    Background="{DynamicResource AppYellowBrush}" Opacity="0.16" />
+            <Border Canvas.Left="1030" Canvas.Top="580" Width="190" Height="190" CornerRadius="95"
+                    Background="{DynamicResource AppBlueBrush}" Opacity="0.14" />
+            <TextBlock Text="🧩" FontSize="44" Canvas.Left="140" Canvas.Top="560" Opacity="0.4">
+                <TextBlock.RenderTransform>
+                    <RotateTransform Angle="12" />
+                </TextBlock.RenderTransform>
+            </TextBlock>
+            <TextBlock Text="✨" FontSize="24" Canvas.Left="940" Canvas.Top="220" Opacity="0.55" />
+        </Canvas>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40,28" Spacing="0">
+
+                <!-- ===================== Jogo ===================== -->
+                <StackPanel IsVisible="{Binding !JogoConcluido}" Spacing="0" HorizontalAlignment="Center">
+                    <Border Width="88" Height="88" CornerRadius="44" HorizontalAlignment="Center" Margin="0,0,0,12"
+                            Background="{DynamicResource AppRedGradientBrush}" BoxShadow="0 10 24 0 #40E63238">
+                        <TextBlock Text="🤔" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+
+                    <TextBlock Text="{Binding TituloFase}" Classes="h1" HorizontalAlignment="Center" TextAlignment="Center" />
+                    <TextBlock Text="{Binding NumeroExibido, StringFormat='Afirmação {0} de 6'}" Classes="muted"
+                               HorizontalAlignment="Center" Margin="0,4,0,18" />
+
+                    <ProgressBar Value="{Binding NumeroExibido}" Maximum="6" Width="460" Height="8" CornerRadius="4" Margin="0,0,0,20"
+                                 Foreground="{DynamicResource AppRedGradientBrush}" Background="{DynamicResource AppBorderBrush}" />
+
+                    <Border Classes="card" Width="540">
+                        <StackPanel Spacing="0">
+
+                            <Border Background="{DynamicResource AppSurfaceAltBrush}" CornerRadius="16" Padding="20,22" Margin="0,0,0,20">
+                                <TextBlock Text="{Binding Afirmacao}" TextWrapping="Wrap" FontSize="18" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource AppTextPrimaryBrush}" TextAlignment="Center" />
+                            </Border>
+
+                            <Grid ColumnDefinitions="*,*" IsEnabled="{Binding PodeResponder}">
+                                <Button Grid.Column="0" Content="✅ Certo" Classes="answer-true" Margin="0,0,6,0"
+                                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                        Command="{Binding ResponderCertoCommand}" />
+                                <Button Grid.Column="1" Content="❌ Errado" Classes="answer-false" Margin="6,0,0,0"
+                                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                        Command="{Binding ResponderErradoCommand}" />
+                            </Grid>
+
+                            <TextBlock Text="{Binding FeedbackTexto}" Classes="info-text" TextWrapping="Wrap" TextAlignment="Center"
+                                       FontSize="14.5" Margin="4,18,4,0" IsVisible="{Binding MostrandoAcerto}" />
+                            <TextBlock Text="{Binding FeedbackTexto}" Classes="error-text" TextWrapping="Wrap" TextAlignment="Center"
+                                       FontSize="14.5" Margin="4,18,4,0" IsVisible="{Binding MostrandoErro}" />
+
+                            <Button Content="{Binding TextoBotaoContinuar}"
+                                    IsVisible="{Binding MostrandoFeedback}" Classes="primary" Command="{Binding ContinuarCommand}"
+                                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="0,16,0,0" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- ===================== Resultado ===================== -->
+                <StackPanel IsVisible="{Binding JogoConcluido}" Spacing="0" HorizontalAlignment="Center">
+                    <Border Width="120" Height="120" CornerRadius="60" HorizontalAlignment="Center" Margin="0,0,0,20"
+                            Background="{DynamicResource AppGreenBrush}" BoxShadow="0 14 30 0 #402FC48D">
+                        <TextBlock Text="🏆" FontSize="56" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <TextBlock Text="Fase concluída!" Classes="h1" HorizontalAlignment="Center" TextAlignment="Center" />
+                    <TextBlock Text="{Binding Estrelinhas}" FontSize="34" HorizontalAlignment="Center" Margin="0,10,0,10"
+                               Foreground="{DynamicResource AppYellowBrush}" />
+                    <TextBlock Text="{Binding Acertos, StringFormat='Você acertou {0} de 6 afirmações. Ótimo raciocínio! 🧩'}"
+                               HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="420"
+                               Classes="muted" Margin="0,0,0,26" />
+                    <Button Content="Voltar à trilha 🗺️" Classes="primary" Command="{Binding VoltarTrilhaCommand}"
+                            HorizontalAlignment="Center" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Panel>
+</UserControl>

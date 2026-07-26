@@ -42,7 +42,7 @@ public partial class TrilhaViewModel : ViewModelBase
     {
         var definicoes = new (string Titulo, TipoDesafio Tipo)[]
         {
-            ("Adivinhe o Multiplicando", TipoDesafio.Calculo),
+            ("Adivinhe o Multiplicando", TipoDesafio.FatorFaltante),
             ("Memória Numérica", TipoDesafio.Memoria),
             ("Certo ou Errado?", TipoDesafio.RaciocinioLogico),
             ("Ajude o Joãozinho", TipoDesafio.Interpretacao),
@@ -137,6 +137,22 @@ public partial class TrilhaViewModel : ViewModelBase
         if (fase.Status == FaseStatus.Disponivel && fase.Tipo == TipoDesafio.Memoria)
         {
             var jogo = _services.GetRequiredService<MemoriaViewModel>();
+            jogo.Configurar(fase.Numero, fase.Titulo);
+            _navigation.NavigateTo(jogo);
+            return;
+        }
+
+        if (fase.Status == FaseStatus.Disponivel && fase.Tipo == TipoDesafio.RaciocinioLogico)
+        {
+            var jogo = _services.GetRequiredService<RaciocinioViewModel>();
+            jogo.Configurar(fase.Numero, fase.Titulo);
+            _navigation.NavigateTo(jogo);
+            return;
+        }
+
+        if (fase.Status == FaseStatus.Disponivel && fase.Tipo == TipoDesafio.FatorFaltante)
+        {
+            var jogo = _services.GetRequiredService<MultiplicandoViewModel>();
             jogo.Configurar(fase.Numero, fase.Titulo);
             _navigation.NavigateTo(jogo);
             return;

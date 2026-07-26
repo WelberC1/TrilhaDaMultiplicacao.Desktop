@@ -250,6 +250,39 @@
     <Setter Property="Opacity" Value="0.9" />
   </Style>
 
+  <!-- ===================== Jogo: Certo ou Errado? ===================== -->
+  <Style Selector="Button.answer-true">
+    <Setter Property="Background" Value="{DynamicResource AppGreenBrush}" />
+    <Setter Property="Foreground" Value="White" />
+    <Setter Property="Padding" Value="20,22" />
+    <Setter Property="FontSize" Value="19" />
+    <Setter Property="FontWeight" Value="ExtraBold" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+  </Style>
+  <Style Selector="Button.answer-true:pointerover">
+    <Setter Property="RenderTransform" Value="scale(1.03)" />
+  </Style>
+  <Style Selector="Button.answer-true:disabled">
+    <Setter Property="Opacity" Value="0.5" />
+  </Style>
+
+  <Style Selector="Button.answer-false">
+    <Setter Property="Background" Value="{DynamicResource AppRedGradientBrush}" />
+    <Setter Property="Foreground" Value="White" />
+    <Setter Property="Padding" Value="20,22" />
+    <Setter Property="FontSize" Value="19" />
+    <Setter Property="FontWeight" Value="ExtraBold" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+  </Style>
+  <Style Selector="Button.answer-false:pointerover">
+    <Setter Property="RenderTransform" Value="scale(1.03)" />
+  </Style>
+  <Style Selector="Button.answer-false:disabled">
+    <Setter Property="Opacity" Value="0.5" />
+  </Style>
+
   <!-- ===================== Nós da trilha ===================== -->
   <Style Selector="Button.fase-node">
     <Setter Property="CornerRadius" Value="999" />

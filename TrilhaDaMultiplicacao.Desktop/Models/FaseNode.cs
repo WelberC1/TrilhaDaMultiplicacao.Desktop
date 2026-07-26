@@ -9,7 +9,8 @@ public enum TipoDesafio
     Memoria,
     RaciocinioLogico,
     Interpretacao,
-    Visual
+    Visual,
+    FatorFaltante
 }
 
 public enum FaseStatus
@@ -100,6 +101,7 @@ public class FaseNode
             TipoDesafio.RaciocinioLogico => "🧩",
             TipoDesafio.Interpretacao => "📖",
             TipoDesafio.Visual => "🧱",
+            TipoDesafio.FatorFaltante => "🔍",
             _ => "❓"
         };
 
@@ -110,6 +112,7 @@ public class FaseNode
         TipoDesafio.RaciocinioLogico => "Raciocínio lógico",
         TipoDesafio.Interpretacao => "Interpretação de problemas",
         TipoDesafio.Visual => "Modelo visual",
+        TipoDesafio.FatorFaltante => "Fator faltante",
         _ => ""
     };
 
@@ -124,6 +127,7 @@ public class FaseNode
             TipoDesafio.RaciocinioLogico => CorRaciocinio,
             TipoDesafio.Interpretacao => CorInterpretacao,
             TipoDesafio.Visual => CorVisual,
+            TipoDesafio.FatorFaltante => CorCalculo,
             _ => CorBloqueada
         };
 
