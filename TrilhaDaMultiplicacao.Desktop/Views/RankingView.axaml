@@ -1,0 +1,64 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:TrilhaDaMultiplicacao.Desktop.ViewModels"
+             xmlns:models="using:TrilhaDaMultiplicacao.Desktop.Models"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1180" d:DesignHeight="700"
+             x:Class="TrilhaDaMultiplicacao.Desktop.Views.RankingView"
+             x:DataType="vm:RankingViewModel">
+
+    <Panel ClipToBounds="True">
+
+        <Border Background="{DynamicResource AppSceneGradientBrush}" />
+
+        <Canvas IsHitTestVisible="False">
+            <Border Canvas.Left="-60" Canvas.Top="-60" Width="220" Height="220" CornerRadius="110"
+                    Background="{DynamicResource AppYellowBrush}" Opacity="0.18" />
+            <Border Canvas.Left="1030" Canvas.Top="140" Width="200" Height="200" CornerRadius="100"
+                    Background="{DynamicResource AppOrangeBrush}" Opacity="0.14" />
+            <TextBlock Text="🏆" FontSize="26" Canvas.Left="1040" Canvas.Top="400" Opacity="0.5" />
+            <TextBlock Text="✨" FontSize="22" Canvas.Left="60" Canvas.Top="460" Opacity="0.5" />
+        </Canvas>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel HorizontalAlignment="Center" Margin="24,24,24,40" Spacing="0">
+
+                <TextBlock Text="🏆 Ranking" Classes="h1" HorizontalAlignment="Center" TextAlignment="Center" />
+                <TextBlock Text="Veja como você está indo em relação aos outros exploradores!" Classes="muted"
+                           HorizontalAlignment="Center" TextAlignment="Center" Margin="0,4,0,20" />
+
+                <ItemsControl ItemsSource="{Binding Entradas}" Width="560">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:RankingEntrada">
+                            <Border Classes="ranking-row" Classes.voce="{Binding EhVoce}">
+                                <Grid ColumnDefinitions="40,Auto,*,Auto">
+                                    <TextBlock Grid.Column="0" Text="{Binding Medalha}" FontSize="20"
+                                               IsVisible="{Binding TemMedalha}" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="0" Text="{Binding Posicao}" FontSize="15" FontWeight="Bold"
+                                               Classes="linha-texto" IsVisible="{Binding !TemMedalha}"
+                                               VerticalAlignment="Center" />
+
+                                    <Border Grid.Column="1" Width="42" Height="42" CornerRadius="21" Margin="10,0"
+                                            Background="{DynamicResource AppSurfaceAltBrush}">
+                                        <TextBlock Text="{Binding AvatarEmoji}" FontSize="19"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+
+                                    <TextBlock Grid.Column="2" Text="{Binding Nome}" FontWeight="SemiBold" FontSize="15.5"
+                                               Classes="linha-texto" VerticalAlignment="Center" />
+
+                                    <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
+                                        <TextBlock Text="🏅" FontSize="13" />
+                                        <TextBlock Text="{Binding Pontos}" FontWeight="Bold" FontSize="15"
+                                                   Classes="linha-texto" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+    </Panel>
+</UserControl>
