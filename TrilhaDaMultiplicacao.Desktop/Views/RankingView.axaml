@@ -28,6 +28,13 @@
                 <TextBlock Text="Veja como você está indo em relação aos outros exploradores!" Classes="muted"
                            HorizontalAlignment="Center" TextAlignment="Center" Margin="0,4,0,20" />
 
+                <ProgressBar IsIndeterminate="True" Height="4" CornerRadius="2" Width="560" Margin="0,0,0,16"
+                             Foreground="{DynamicResource AppOrangeBrush}" Background="Transparent"
+                             IsVisible="{Binding IsBusy}" />
+
+                <TextBlock Text="{Binding ErrorMessage}" Classes="error-text" IsVisible="{Binding HasError}"
+                           Width="560" Margin="0,0,0,16" />
+
                 <ItemsControl ItemsSource="{Binding Entradas}" Width="560">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="models:RankingEntrada">

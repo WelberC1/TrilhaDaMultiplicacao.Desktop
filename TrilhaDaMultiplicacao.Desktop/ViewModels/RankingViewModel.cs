@@ -6,10 +6,33 @@ namespace TrilhaDaMultiplicacao.Desktop.ViewModels;
 
 public partial class RankingViewModel : ViewModelBase
 {
-    public ObservableCollection<RankingEntrada> Entradas { get; }
+    private readonly IProgressoRepository _progresso;
+
+    public ObservableCollection<RankingEntrada> Entradas { get; } = [];
 
     public RankingViewModel(IProgressoRepository progresso)
     {
-        Entradas = new ObservableCollection<RankingEntrada>(progresso.ObterRanking());
+        _progresso = progresso;
+        _ = CarregarAsync();
+    }
+
+    private async Task CarregarAsync()
+    {
+        IsBusy = true;
+        ErrorMessage = null;
+        try
+        {
+            var entradas = await _progresso.ObterRankingAsync();
+            Entradas.Clear();
+            foreach (var entrada in entradas) Entradas.Add(entrada);
+        }
+        catch (ApiRequestException ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 }

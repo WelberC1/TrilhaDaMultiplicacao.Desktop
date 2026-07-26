@@ -3,10 +3,10 @@ using TrilhaDaMultiplicacao.Desktop.Models;
 namespace TrilhaDaMultiplicacao.Desktop.Services;
 
 /// <summary>
-/// Fronteira de persistência do progresso do aluno. Hoje só existe <see cref="SessionService"/>
-/// como implementação em memória; quando a API real existir, uma implementação
-/// que fale com o backend pode substituir o registro em App.axaml.cs sem alterar
-/// nenhuma das telas que dependem desta interface.
+/// Fronteira de persistência do progresso do aluno. Implementada por <see cref="SessionService"/>,
+/// que fala com a API real (não é mais mock em memória) — mas as telas dependem desta interface,
+/// não da classe concreta, então uma implementação alternativa poderia substituir o registro em
+/// App.axaml.cs sem alterar nenhuma tela.
 /// </summary>
 public interface IProgressoRepository
 {
@@ -18,5 +18,6 @@ public interface IProgressoRepository
 
     Task AtualizarPerfilAsync(string nome, string email, string avatarEmoji);
     Task AlterarSenhaAsync(string senhaAtual, string novaSenha);
-    IReadOnlyList<RankingEntrada> ObterRanking();
+    Task<IReadOnlyList<RankingEntrada>> ObterRankingAsync();
+    Task<IReadOnlyList<Conquista>> ObterConquistasAsync();
 }
