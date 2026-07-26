@@ -47,7 +47,7 @@ public partial class TrilhaViewModel : ViewModelBase
             ("Certo ou Errado?", TipoDesafio.RaciocinioLogico),
             ("Ajude o Joãozinho", TipoDesafio.Interpretacao),
             ("Cálculo Rápido", TipoDesafio.Calculo),
-            ("Memória Numérica II", TipoDesafio.Memoria),
+            ("Monte o Retângulo", TipoDesafio.Visual),
             ("Jogo dos Algoritmos", TipoDesafio.RaciocinioLogico),
             ("Ajude o Joãozinho II", TipoDesafio.Interpretacao),
             ("Operações com 2 Dígitos", TipoDesafio.Calculo),
@@ -121,6 +121,14 @@ public partial class TrilhaViewModel : ViewModelBase
         if (fase.Status == FaseStatus.Disponivel && fase.Tipo == TipoDesafio.Calculo)
         {
             var jogo = _services.GetRequiredService<CalculoViewModel>();
+            jogo.Configurar(fase.Numero, fase.Titulo);
+            _navigation.NavigateTo(jogo);
+            return;
+        }
+
+        if (fase.Status == FaseStatus.Disponivel && fase.Tipo == TipoDesafio.Visual)
+        {
+            var jogo = _services.GetRequiredService<RetanguloViewModel>();
             jogo.Configurar(fase.Numero, fase.Titulo);
             _navigation.NavigateTo(jogo);
             return;

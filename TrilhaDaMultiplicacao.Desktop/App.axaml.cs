@@ -46,5 +46,6 @@ public partial class App : Application
         services.AddTransient<ForgotPasswordViewModel>();
         services.AddTransient<InterpretacaoViewModel>();
         services.AddTransient<CalculoViewModel>();
+        services.AddTransient<RetanguloViewModel>();
     }
 }

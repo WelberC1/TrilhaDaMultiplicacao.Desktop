@@ -47,6 +47,8 @@
   <Color x:Key="AppColorYellow">#FFC93C</Color>
   <Color x:Key="AppColorRed">#FF5A5F</Color>
   <Color x:Key="AppColorGreen">#2FC48D</Color>
+  <Color x:Key="AppColorViolet">#8B6BF2</Color>
+  <Color x:Key="AppColorVioletDeep">#6C3CE0</Color>
   <Color x:Key="AppColorOnPrimary">#FFFFFF</Color>
 
   <SolidColorBrush x:Key="AppBackgroundBrush" Color="{DynamicResource AppColorBackground}" />
@@ -62,6 +64,11 @@
   <SolidColorBrush x:Key="AppRedBrush" Color="{StaticResource AppColorRed}" />
   <SolidColorBrush x:Key="AppGreenBrush" Color="{StaticResource AppColorGreen}" />
   <SolidColorBrush x:Key="AppOnPrimaryBrush" Color="{StaticResource AppColorOnPrimary}" />
+
+  <LinearGradientBrush x:Key="AppVioletGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+    <GradientStop Offset="0" Color="{StaticResource AppColorViolet}" />
+    <GradientStop Offset="1" Color="{StaticResource AppColorVioletDeep}" />
+  </LinearGradientBrush>
 
   <!-- Botão principal / mascote -->
   <LinearGradientBrush x:Key="AppPrimaryGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">

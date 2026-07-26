@@ -8,7 +8,8 @@ public enum TipoDesafio
     Calculo,
     Memoria,
     RaciocinioLogico,
-    Interpretacao
+    Interpretacao,
+    Visual
 }
 
 public enum FaseStatus
@@ -51,6 +52,13 @@ public class FaseNode
         GradientStops = { new GradientStop(Color.Parse("#FFDA6B"), 0), new GradientStop(Color.Parse("#F5AC1B"), 1) }
     };
 
+    private static readonly IBrush CorVisual = new LinearGradientBrush
+    {
+        StartPoint = new RelativePoint(0, 0, RelativeUnit.Relative),
+        EndPoint = new RelativePoint(1, 1, RelativeUnit.Relative),
+        GradientStops = { new GradientStop(Color.Parse("#8B6BF2"), 0), new GradientStop(Color.Parse("#6C3CE0"), 1) }
+    };
+
     private static readonly IBrush CorBloqueada = new SolidColorBrush(Color.Parse("#8C97B4"));
     private static readonly IBrush CorConectorFeito = new SolidColorBrush(Color.Parse("#2FC48D"));
     private static readonly IBrush CorConectorPadrao = new SolidColorBrush(Color.Parse("#A9B4D6"));
@@ -91,6 +99,7 @@ public class FaseNode
             TipoDesafio.Memoria => "🧠",
             TipoDesafio.RaciocinioLogico => "🧩",
             TipoDesafio.Interpretacao => "📖",
+            TipoDesafio.Visual => "🧱",
             _ => "❓"
         };
 
@@ -100,6 +109,7 @@ public class FaseNode
         TipoDesafio.Memoria => "Memória",
         TipoDesafio.RaciocinioLogico => "Raciocínio lógico",
         TipoDesafio.Interpretacao => "Interpretação de problemas",
+        TipoDesafio.Visual => "Modelo visual",
         _ => ""
     };
 
@@ -113,6 +123,7 @@ public class FaseNode
             TipoDesafio.Memoria => CorMemoria,
             TipoDesafio.RaciocinioLogico => CorRaciocinio,
             TipoDesafio.Interpretacao => CorInterpretacao,
+            TipoDesafio.Visual => CorVisual,
             _ => CorBloqueada
         };
 

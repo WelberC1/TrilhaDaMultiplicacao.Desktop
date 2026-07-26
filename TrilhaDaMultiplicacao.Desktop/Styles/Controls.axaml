@@ -110,6 +110,90 @@
     <Setter Property="Opacity" Value="0.55" />
   </Style>
 
+  <!-- ===================== Jogo: Monte o Retângulo ===================== -->
+  <Style Selector="Button.stepper">
+    <Setter Property="Width" Value="46" />
+    <Setter Property="Height" Value="46" />
+    <Setter Property="CornerRadius" Value="14" />
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceAltBrush}" />
+    <Setter Property="Foreground" Value="{DynamicResource AppTextPrimaryBrush}" />
+    <Setter Property="FontSize" Value="18" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+    <Setter Property="BorderThickness" Value="2" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+  </Style>
+  <Style Selector="Button.stepper:pointerover">
+    <Setter Property="Background" Value="{DynamicResource AppBorderBrush}" />
+  </Style>
+  <Style Selector="Button.stepper:disabled">
+    <Setter Property="Opacity" Value="0.35" />
+  </Style>
+
+  <Style Selector="Border.stepper-value">
+    <Setter Property="MinWidth" Value="46" />
+    <Setter Property="Height" Value="38" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="Background" Value="{DynamicResource AppVioletGradientBrush}" />
+  </Style>
+  <Style Selector="Border.stepper-value TextBlock">
+    <Setter Property="Foreground" Value="White" />
+    <Setter Property="FontWeight" Value="ExtraBold" />
+    <Setter Property="FontSize" Value="17" />
+    <Setter Property="HorizontalAlignment" Value="Center" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+
+  <Style Selector="Border.grid-frame">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceAltBrush}" />
+    <Setter Property="CornerRadius" Value="18" />
+    <Setter Property="Padding" Value="10" />
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+
+  <Style Selector="Border.cell-block">
+    <Setter Property="Width" Value="32" />
+    <Setter Property="Height" Value="32" />
+    <Setter Property="Margin" Value="3" />
+    <Setter Property="CornerRadius" Value="9" />
+    <Setter Property="Background" Value="{DynamicResource AppVioletGradientBrush}" />
+    <Setter Property="BoxShadow" Value="0 2 4 0 #302A1B5E" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background" Duration="0:0:0.2" />
+      </Transitions>
+    </Setter>
+  </Style>
+  <Style Selector="Border.cell-block.resolvido">
+    <Setter Property="Background" Value="{DynamicResource AppGreenBrush}" />
+  </Style>
+
+  <Style Selector="Border.total-pill">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceAltBrush}" />
+    <Setter Property="CornerRadius" Value="999" />
+    <Setter Property="Padding" Value="22,10" />
+    <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+    <Setter Property="BorderThickness" Value="2" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background" Duration="0:0:0.25" />
+      </Transitions>
+    </Setter>
+  </Style>
+  <Style Selector="Border.total-pill TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource AppTextPrimaryBrush}" />
+  </Style>
+  <Style Selector="Border.total-pill.resolvido">
+    <Setter Property="Background" Value="{DynamicResource AppGreenBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource AppGreenBrush}" />
+  </Style>
+  <Style Selector="Border.total-pill.resolvido TextBlock">
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+
   <!-- ===================== Nós da trilha ===================== -->
   <Style Selector="Button.fase-node">
     <Setter Property="CornerRadius" Value="999" />
