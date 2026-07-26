@@ -13,3 +13,5 @@ public record AtualizarPerfilRequest(string Nome, string Email, string AvatarEmo
 public record EsqueciSenhaRequest(string Email);
 
 public record RedefinirSenhaRequest(string Email, string Codigo, string NovaSenha);
+
+public record AlterarSenhaRequest(string SenhaAtual, string NovaSenha);

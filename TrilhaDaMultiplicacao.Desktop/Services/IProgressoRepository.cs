@@ -17,5 +17,6 @@ public interface IProgressoRepository
     IReadOnlyDictionary<int, int> TodasEstrelas { get; }
 
     Task AtualizarPerfilAsync(string nome, string email, string avatarEmoji);
+    Task AlterarSenhaAsync(string senhaAtual, string novaSenha);
     IReadOnlyList<RankingEntrada> ObterRanking();
 }

@@ -82,6 +82,10 @@
                     <StackPanel Spacing="0" HorizontalAlignment="Center">
                         <TextBlock Text="🔒 Alterar senha" Classes="h2" HorizontalAlignment="Left" Width="480" Margin="0,0,0,14" />
 
+                        <TextBlock Text="SENHA ATUAL" Classes="field-label" HorizontalAlignment="Left" Width="480" />
+                        <TextBox Text="{Binding SenhaAtual}" PasswordChar="●" PlaceholderText="Digite sua senha atual"
+                                  Width="480" Margin="0,0,0,16" />
+
                         <TextBlock Text="NOVA SENHA" Classes="field-label" HorizontalAlignment="Left" Width="480" />
                         <TextBox Text="{Binding NovaSenha}" PasswordChar="●" PlaceholderText="Crie uma nova senha"
                                   Width="480" Margin="0,0,0,16" />
@@ -96,7 +100,12 @@
                                    Width="480" Margin="0,6,0,0" />
 
                         <Button Content="Salvar nova senha 🔐" Classes="secondary" Command="{Binding AlterarSenhaCommand}"
+                                IsEnabled="{Binding !IsBusy}"
                                 HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Width="480" Margin="0,16,0,0" />
+
+                        <ProgressBar IsIndeterminate="True" Height="4" CornerRadius="2" Width="480" Margin="0,10,0,0"
+                                     Foreground="{DynamicResource AppOrangeBrush}" Background="Transparent"
+                                     IsVisible="{Binding IsBusy}" />
                     </StackPanel>
                 </Border>
             </StackPanel>
