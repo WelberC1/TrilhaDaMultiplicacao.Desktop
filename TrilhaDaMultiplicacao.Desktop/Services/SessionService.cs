@@ -12,7 +12,6 @@ public class SessionService
 
         if (_estrelasPorFase.Count == 0)
         {
-            _estrelasPorFase[1] = 3;
             _estrelasPorFase[3] = 3;
         }
     }

@@ -48,5 +48,7 @@ public partial class App : Application
         services.AddTransient<CalculoViewModel>();
         services.AddTransient<RetanguloViewModel>();
         services.AddTransient<MemoriaViewModel>();
+        services.AddTransient<RaciocinioViewModel>();
+        services.AddTransient<MultiplicandoViewModel>();
     }
 }
