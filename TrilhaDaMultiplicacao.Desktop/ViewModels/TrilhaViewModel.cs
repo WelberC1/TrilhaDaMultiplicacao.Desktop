@@ -39,20 +39,22 @@ public partial class TrilhaViewModel : ViewModelBase
 
     private static IEnumerable<FaseNode> CriarFases(SessionService session)
     {
+        // Ordem pensada como duas rodadas de dificuldade crescente (fáceis -> difíceis),
+        // a segunda repetindo os mesmos 6 tipos de desafio em versões mais avançadas.
         var definicoes = new (string Titulo, TipoDesafio Tipo)[]
         {
-            ("Adivinhe o Multiplicando", TipoDesafio.FatorFaltante),
-            ("Memória Numérica", TipoDesafio.Memoria),
-            ("Certo ou Errado?", TipoDesafio.RaciocinioLogico),
-            ("Ajude o Joãozinho", TipoDesafio.Interpretacao),
-            ("Cálculo Rápido", TipoDesafio.Calculo),
             ("Monte o Retângulo", TipoDesafio.Visual),
-            ("Jogo dos Algoritmos", TipoDesafio.RaciocinioLogico),
-            ("Ajude o Joãozinho II", TipoDesafio.Interpretacao),
+            ("Cálculo Rápido", TipoDesafio.Calculo),
+            ("Memória Numérica", TipoDesafio.Memoria),
+            ("Ajude o Joãozinho", TipoDesafio.Interpretacao),
+            ("Adivinhe o Multiplicando", TipoDesafio.FatorFaltante),
+            ("Certo ou Errado?", TipoDesafio.RaciocinioLogico),
             ("Operações com 2 Dígitos", TipoDesafio.Calculo),
             ("Memória Numérica III", TipoDesafio.Memoria),
-            ("Certo ou Errado? II", TipoDesafio.RaciocinioLogico),
+            ("Ajude o Joãozinho II", TipoDesafio.Interpretacao),
+            ("Jogo dos Algoritmos", TipoDesafio.RaciocinioLogico),
             ("Operações com 3 Dígitos", TipoDesafio.Calculo),
+            ("Certo ou Errado? II", TipoDesafio.RaciocinioLogico),
         };
 
         const double centerX = 285;

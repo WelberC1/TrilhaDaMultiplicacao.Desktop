@@ -15,6 +15,9 @@ public partial class RegisterViewModel : ViewModelBase
     public partial string Nome { get; set; } = string.Empty;
 
     [ObservableProperty]
+    public partial string Usuario { get; set; } = string.Empty;
+
+    [ObservableProperty]
     public partial string Email { get; set; } = string.Empty;
 
     [ObservableProperty]
@@ -38,7 +41,8 @@ public partial class RegisterViewModel : ViewModelBase
     {
         ErrorMessage = null;
 
-        if (string.IsNullOrWhiteSpace(Nome) || string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Senha))
+        if (string.IsNullOrWhiteSpace(Nome) || string.IsNullOrWhiteSpace(Usuario) ||
+            string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Senha))
         {
             ErrorMessage = "Ops! Preencha todos os campos para criar sua conta. 🙂";
             return;
@@ -59,7 +63,7 @@ public partial class RegisterViewModel : ViewModelBase
         IsBusy = true;
         try
         {
-            await _session.RegistrarAsync(Nome.Trim(), Email.Trim(), Senha);
+            await _session.RegistrarAsync(Nome.Trim(), Usuario.Trim(), Email.Trim(), Senha);
             CadastroConcluido = true;
         }
         catch (ApiRequestException ex)

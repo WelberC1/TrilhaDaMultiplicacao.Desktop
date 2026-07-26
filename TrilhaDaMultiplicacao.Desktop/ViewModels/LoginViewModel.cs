@@ -12,7 +12,7 @@ public partial class LoginViewModel : ViewModelBase
     private readonly IServiceProvider _services;
 
     [ObservableProperty]
-    public partial string Email { get; set; } = string.Empty;
+    public partial string Usuario { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string Senha { get; set; } = string.Empty;
@@ -37,16 +37,16 @@ public partial class LoginViewModel : ViewModelBase
         ErrorMessage = null;
         InfoMessage = null;
 
-        if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Senha))
+        if (string.IsNullOrWhiteSpace(Usuario) || string.IsNullOrWhiteSpace(Senha))
         {
-            ErrorMessage = "Ops! Preencha seu e-mail e sua senha para continuar. 🙂";
+            ErrorMessage = "Ops! Preencha seu usuário e sua senha para continuar. 🙂";
             return;
         }
 
         IsBusy = true;
         try
         {
-            await _session.LoginAsync(Email.Trim(), Senha);
+            await _session.LoginAsync(Usuario.Trim(), Senha);
             _navigation.NavigateTo(_services.GetRequiredService<ShellViewModel>());
         }
         catch (ApiRequestException ex)

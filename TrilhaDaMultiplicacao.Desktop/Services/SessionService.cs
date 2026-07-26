@@ -28,18 +28,18 @@ public class SessionService(ApiClient api) : IProgressoRepository
 
     // -------- Autenticação e perfil: fala com a API de verdade --------
 
-    public async Task LoginAsync(string email, string senha)
+    public async Task LoginAsync(string nomeUsuario, string senha)
     {
         var resultado = await api.PostAsync<LoginRequest, AuthResponse>(
-            "/api/auth/login", new LoginRequest(email, senha));
+            "/api/auth/login", new LoginRequest(nomeUsuario, senha));
 
         AplicarSessao(resultado);
     }
 
-    public async Task RegistrarAsync(string nome, string email, string senha)
+    public async Task RegistrarAsync(string nome, string nomeUsuario, string email, string senha)
     {
         await api.PostAsync<RegistrarRequest, AuthResponse>(
-            "/api/auth/registrar", new RegistrarRequest(nome, email, senha));
+            "/api/auth/registrar", new RegistrarRequest(nome, nomeUsuario, email, senha));
     }
 
     public async Task EsqueciSenhaAsync(string email) =>

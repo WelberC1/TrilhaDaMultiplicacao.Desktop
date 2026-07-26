@@ -121,9 +121,11 @@
                                                    Foreground="{DynamicResource AppYellowBrush}" FontSize="15"
                                                    HorizontalAlignment="Center" />
 
-                                        <Border IsVisible="{Binding EhDisponivel}" Classes="jogar-pill" HorizontalAlignment="Center">
+                                        <Button IsVisible="{Binding EhDisponivel}" Classes="jogar-pill" HorizontalAlignment="Center"
+                                                Command="{Binding #Root.((vm:TrilhaViewModel)DataContext).AbrirFaseCommand}"
+                                                CommandParameter="{Binding}">
                                             <TextBlock Text="JOGAR" FontSize="11" FontWeight="Bold" Foreground="White" />
-                                        </Border>
+                                        </Button>
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>

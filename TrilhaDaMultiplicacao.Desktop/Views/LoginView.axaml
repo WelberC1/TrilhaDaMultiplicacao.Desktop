@@ -66,8 +66,8 @@
                 <Border Classes="card" Width="400">
                     <StackPanel Spacing="0">
 
-                        <TextBlock Text="📧  E-MAIL" Classes="field-label" />
-                        <TextBox Text="{Binding Email}" PlaceholderText="seuemail@exemplo.com" Margin="0,0,0,16" />
+                        <TextBlock Text="👤  USUÁRIO" Classes="field-label" />
+                        <TextBox Text="{Binding Usuario}" PlaceholderText="Digite seu usuário" Margin="0,0,0,16" />
 
                         <TextBlock Text="🔒  SENHA" Classes="field-label" />
                         <TextBox Text="{Binding Senha}" PasswordChar="●" PlaceholderText="Digite sua senha" Margin="0,0,0,4">
