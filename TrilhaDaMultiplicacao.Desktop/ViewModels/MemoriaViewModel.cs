@@ -149,7 +149,16 @@ public partial class MemoriaViewModel : ViewModelBase
                     <= 5 => 1,
                     _ => 0
                 };
-                _session.RegistrarConclusaoFase(_numeroFase, EstrelasConquistadas);
+
+                try
+                {
+                    await _session.RegistrarConclusaoFaseAsync(_numeroFase, EstrelasConquistadas);
+                }
+                catch (ApiRequestException ex)
+                {
+                    ErrorMessage = ex.Message;
+                }
+
                 await Task.Delay(500);
                 JogoConcluido = true;
             }
