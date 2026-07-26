@@ -57,8 +57,23 @@ public class SessionService(ApiClient api) : IProgressoRepository
         AplicarPerfil(resultado);
     }
 
-    public void Sair()
+    public async Task AlterarSenhaAsync(string senhaAtual, string novaSenha) =>
+        await api.PutAsync("/api/alunos/me/senha", new AlterarSenhaRequest(senhaAtual, novaSenha), _token!);
+
+    public async Task SairAsync()
     {
+        try
+        {
+            if (_token is not null)
+                await api.PostAsync("/api/auth/logout", _token);
+        }
+        catch (Exception)
+        {
+            // Best-effort de propósito: nada que dê errado ao avisar o servidor (rede fora,
+            // token já revogado, etc.) deve impedir a sessão local de ser limpa — o pior caso
+            // é o token continuar tecnicamente válido no servidor até expirar em até 24h.
+        }
+
         _token = null;
         AlunoNome = null;
         Email = string.Empty;

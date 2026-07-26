@@ -16,8 +16,14 @@ public class ApiClient(HttpClient httpClient)
     public Task PostAsync<TRequest>(string caminho, TRequest corpo) =>
         EnviarSemRespostaAsync(CriarMensagem(HttpMethod.Post, caminho, corpo, token: null));
 
+    public Task PostAsync(string caminho, string token) =>
+        EnviarSemRespostaAsync(CriarMensagem<object?>(HttpMethod.Post, caminho, corpo: null, token));
+
     public Task<TResponse> PutAsync<TRequest, TResponse>(string caminho, TRequest corpo, string token) =>
         EnviarAsync<TResponse>(CriarMensagem(HttpMethod.Put, caminho, corpo, token));
+
+    public Task PutAsync<TRequest>(string caminho, TRequest corpo, string token) =>
+        EnviarSemRespostaAsync(CriarMensagem(HttpMethod.Put, caminho, corpo, token));
 
     public Task<TResponse> GetAsync<TResponse>(string caminho, string token) =>
         EnviarAsync<TResponse>(CriarMensagem<object?>(HttpMethod.Get, caminho, corpo: null, token));
@@ -60,11 +66,30 @@ public class ApiClient(HttpClient httpClient)
 
         if (!resposta.IsSuccessStatusCode)
         {
-            var erro = await resposta.Content.ReadFromJsonAsync<ErroResponse>(JsonOptions);
-            throw new ApiRequestException(erro?.Mensagem ?? "Ocorreu um erro inesperado. Tente novamente.");
+            throw new ApiRequestException(await ExtrairMensagemDeErroAsync(resposta));
         }
 
         return resposta;
+    }
+
+    private static async Task<string> ExtrairMensagemDeErroAsync(HttpResponseMessage resposta)
+    {
+        // Nem todo erro passa pelo tratamento central da API — uma rejeição de autenticação
+        // (ex.: token com sessão revogada) vem direto do middleware, com corpo vazio, então
+        // ReadFromJsonAsync lançaria JsonException em vez de simplesmente não achar "mensagem".
+        try
+        {
+            var erro = await resposta.Content.ReadFromJsonAsync<ErroResponse>(JsonOptions);
+            if (erro?.Mensagem is not null) return erro.Mensagem;
+        }
+        catch (JsonException)
+        {
+            // corpo vazio ou não-JSON — cai no padrão por status abaixo.
+        }
+
+        return resposta.StatusCode == System.Net.HttpStatusCode.Unauthorized
+            ? "Sessão expirada. Faça login novamente."
+            : "Ocorreu um erro inesperado. Tente novamente.";
     }
 
     private record ErroResponse(string Mensagem);

@@ -31,6 +31,9 @@ public partial class ContaViewModel : ViewModelBase
     public partial string? MensagemPerfil { get; set; }
 
     [ObservableProperty]
+    public partial string SenhaAtual { get; set; } = string.Empty;
+
+    [ObservableProperty]
     public partial string NovaSenha { get; set; } = string.Empty;
 
     [ObservableProperty]
@@ -105,11 +108,17 @@ public partial class ContaViewModel : ViewModelBase
         }
     }
 
-    [RelayCommand]
-    private void AlterarSenha()
+    [RelayCommand(AllowConcurrentExecutions = false)]
+    private async Task AlterarSenhaAsync()
     {
         MensagemSenha = null;
         ErroSenha = null;
+
+        if (string.IsNullOrWhiteSpace(SenhaAtual))
+        {
+            ErroSenha = "Digite sua senha atual. 🔒";
+            return;
+        }
 
         if (string.IsNullOrWhiteSpace(NovaSenha))
         {
@@ -123,10 +132,28 @@ public partial class ContaViewModel : ViewModelBase
             return;
         }
 
-        // Ainda não existe backend para validar/persistir a senha de verdade —
-        // isso fica pronto assim que a API de autenticação entrar.
-        NovaSenha = string.Empty;
-        ConfirmarNovaSenha = string.Empty;
-        MensagemSenha = "✅ Senha alterada com sucesso!";
+        if (NovaSenha.Length < 6)
+        {
+            ErroSenha = "A nova senha precisa ter pelo menos 6 caracteres. 🔒";
+            return;
+        }
+
+        IsBusy = true;
+        try
+        {
+            await _progresso.AlterarSenhaAsync(SenhaAtual, NovaSenha);
+            SenhaAtual = string.Empty;
+            NovaSenha = string.Empty;
+            ConfirmarNovaSenha = string.Empty;
+            MensagemSenha = "✅ Senha alterada com sucesso!";
+        }
+        catch (ApiRequestException ex)
+        {
+            ErroSenha = ex.Message;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 }

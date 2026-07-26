@@ -98,10 +98,10 @@ public partial class ShellViewModel : ViewModelBase
         OnPropertyChanged(nameof(PontosTotais));
     }
 
-    [RelayCommand]
-    private void Sair()
+    [RelayCommand(AllowConcurrentExecutions = false)]
+    private async Task SairAsync()
     {
-        _progresso.Sair();
+        await _progresso.SairAsync();
         _navigation.NavigateTo(_services.GetRequiredService<LoginViewModel>());
     }
 }
