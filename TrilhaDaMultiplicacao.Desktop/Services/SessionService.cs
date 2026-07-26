@@ -34,6 +34,7 @@ public class SessionService(ApiClient api) : IProgressoRepository
             "/api/auth/login", new LoginRequest(nomeUsuario, senha));
 
         AplicarSessao(resultado);
+        await CarregarProgressoAsync();
     }
 
     public async Task RegistrarAsync(string nome, string nomeUsuario, string email, string senha)
@@ -67,15 +68,34 @@ public class SessionService(ApiClient api) : IProgressoRepository
         _competidoresMock = null;
     }
 
-    // -------- Progresso/ranking: continuam mockados até a Fase 2 --------
+    // -------- Progresso: agora persiste de verdade na API --------
 
-    public void RegistrarConclusaoFase(int numeroFase, int estrelas)
+    public async Task RegistrarConclusaoFaseAsync(int numeroFase, int estrelas)
     {
-        _estrelasPorFase[numeroFase] = Math.Max(estrelas, _estrelasPorFase.GetValueOrDefault(numeroFase));
+        var resultado = await api.PostAsync<RegistrarConclusaoRequest, FaseProgressoResponseDto>(
+            $"/api/progresso/fases/{numeroFase}", new RegistrarConclusaoRequest(estrelas), _token!);
+
+        _estrelasPorFase[numeroFase] = resultado.Estrelas;
+
+        var perfilAtualizado = await api.GetAsync<AlunoResponseDto>("/api/alunos/me", _token!);
+        AplicarPerfil(perfilAtualizado);
     }
 
     public int? EstrelasDaFase(int numeroFase) =>
         _estrelasPorFase.TryGetValue(numeroFase, out var estrelas) ? estrelas : null;
+
+    private async Task CarregarProgressoAsync()
+    {
+        var progresso = await api.GetAsync<List<FaseProgressoResponseDto>>("/api/progresso", _token!);
+
+        _estrelasPorFase.Clear();
+        foreach (var fase in progresso)
+        {
+            _estrelasPorFase[fase.NumeroFase] = fase.Estrelas;
+        }
+    }
+
+    // -------- Ranking: continua mockado até a próxima fase --------
 
     public IReadOnlyList<RankingEntrada> ObterRanking()
     {

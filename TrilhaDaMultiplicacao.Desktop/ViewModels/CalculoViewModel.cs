@@ -167,8 +167,8 @@ public partial class CalculoViewModel : ViewModelBase
         MostrandoFeedback = true;
     }
 
-    [RelayCommand]
-    private void Continuar()
+    [RelayCommand(AllowConcurrentExecutions = false)]
+    private async Task ContinuarAsync()
     {
         if (UltimaPergunta)
         {
@@ -179,7 +179,16 @@ public partial class CalculoViewModel : ViewModelBase
                 >= 1 => 1,
                 _ => 0
             };
-            _session.RegistrarConclusaoFase(_numeroFase, EstrelasConquistadas);
+
+            try
+            {
+                await _session.RegistrarConclusaoFaseAsync(_numeroFase, EstrelasConquistadas);
+            }
+            catch (ApiRequestException ex)
+            {
+                ErrorMessage = ex.Message;
+            }
+
             JogoConcluido = true;
             return;
         }
