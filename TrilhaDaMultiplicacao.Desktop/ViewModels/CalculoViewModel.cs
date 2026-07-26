@@ -192,7 +192,7 @@ public partial class CalculoViewModel : ViewModelBase
     private void VoltarTrilha()
     {
         _timer.Stop();
-        _navigation.NavigateTo(_services.GetRequiredService<TrilhaViewModel>());
+        _navigation.NavigateTo(_services.GetRequiredService<ShellViewModel>());
     }
 
     private PerguntaCalculo GerarPergunta()

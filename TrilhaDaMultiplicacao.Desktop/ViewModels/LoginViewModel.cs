@@ -49,7 +49,7 @@ public partial class LoginViewModel : ViewModelBase
             await Task.Delay(500);
 
             _session.EntrarComo(Usuario.Trim());
-            _navigation.NavigateTo(_services.GetRequiredService<TrilhaViewModel>());
+            _navigation.NavigateTo(_services.GetRequiredService<ShellViewModel>());
         }
         finally
         {
