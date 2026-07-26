@@ -14,17 +14,26 @@ A paleta de cores da interface também não foi escolhida por acaso: segue a psi
 
 ## ✨ O que já existe
 
-- **Tela de login** ilustrada e animada, pensada para o público infantil.
-- **Redirecionamento** para a tela inicial da trilha, já mostrando um preview de fases (bloqueadas/desbloqueadas) do que está por vir.
+- **Login, cadastro e recuperação de senha** ilustrados e animados, pensados para o público infantil.
+- **Trilha de fases navegável de verdade**, com progressão sequencial, estrelas por fase e barra de progresso.
+- **6 mini-jogos**, cada um trabalhando um ângulo diferente da multiplicação:
+  - 🔍 **Adivinhe o Multiplicando** — descobre o fator que falta (`2 × ? = 6`).
+  - 🧠 **Memória Numérica** — jogo da memória combinando conta e resultado, com prévia cronometrada antes de virar as cartas.
+  - 🧩 **Certo ou Errado?** — julga afirmações verdadeiro/falso: contas, comparações entre produtos e propriedades da multiplicação.
+  - 📖 **Ajude o Joãozinho** — problemas de interpretação de texto.
+  - ✖️ **Cálculo Rápido** — contas contra o relógio.
+  - 🧱 **Monte o Retângulo** — modelo visual de array (linhas × colunas), reforçando *por que* a multiplicação funciona, não só o resultado.
+- **Casca de navegação por abas** depois do login: 🗺️ Trilha, 🏆 Ranking, 🎖️ Conquistas e 👤 Conta, com barra fixa mostrando avatar, nome e pontos.
+- **Sistema de pontos** que soma a cada fase concluída e alimenta o ranking.
+- **Ranking** com o aluno destacado entre outros exploradores (dado fictício por enquanto — ver Roadmap).
+- **Conquistas** desbloqueadas automaticamente conforme o progresso.
+- **Conta do aluno**: editar nome e e-mail, escolher avatar entre ícones de bichinhos fofos, e trocar senha.
 
 ## 🗺️ Roadmap
 
-- [ ] Trilha de fases navegável, com progressão real
-- [ ] Mini-jogos: memória, raciocínio lógico e interpretação de problemas
-- [ ] Sistema de pontuação e ranking entre alunos
-- [ ] Cadastro de conta e recuperação de senha
-- [ ] Perfil do aluno com avatar personalizável
-- [ ] Integração com uma API/backend
+- [ ] Integração com uma API/backend para persistir progresso, perfil e autenticação de verdade
+- [ ] Ranking com alunos reais (hoje os concorrentes são fictícios, gerados localmente)
+- [ ] Mais fases e variações para os mini-jogos existentes
 
 ## 🛠️ Tecnologias
 
@@ -47,12 +56,15 @@ dotnet run --project TrilhaDaMultiplicacao.Desktop
 
 ```
 TrilhaDaMultiplicacao.Desktop/
-├── Views/          # Telas (XAML)
+├── Views/          # Telas (XAML) — trilha, mini-jogos, abas e casca de navegação
 ├── ViewModels/      # Lógica de apresentação (MVVM)
-├── Services/         # Navegação, sessão do aluno, etc.
-├── Styles/            # Paleta de cores e estilos dos componentes
-└── Assets/             # Imagens e ícones
+├── Models/           # Modelos de fase, perguntas dos jogos, ranking, conquistas etc.
+├── Services/          # Navegação, sessão do aluno e progresso (IProgressoRepository)
+├── Styles/             # Paleta de cores e estilos dos componentes
+└── Assets/              # Imagens e ícones
 ```
+
+Toda a persistência hoje é em memória, via `SessionService`. As telas novas (Ranking, Conquistas, Conta) já dependem da interface `IProgressoRepository` em vez da classe concreta — quando a API real existir, uma implementação que fale com o backend substitui o mock sem precisar alterar nenhuma tela.
 
 ## 🎓 Contexto acadêmico
 
