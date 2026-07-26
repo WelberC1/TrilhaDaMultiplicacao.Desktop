@@ -5,18 +5,7 @@ namespace TrilhaDaMultiplicacao.Desktop.Services;
 
 public class SessionService(ApiClient api) : IProgressoRepository
 {
-    private static readonly string[] NomesMockRanking =
-    [
-        "Larissa", "Pedro", "Beatriz", "Gabriel", "Sofia", "Lucas",
-        "Isabela", "Miguel", "Alice", "Davi", "Laura", "Enzo", "Manuela", "Heitor"
-    ];
-
-    private static readonly string[] AvataresMockRanking =
-        ["🦊", "🐱", "🐶", "🐼", "🦁", "🐯", "🐰", "🐵", "🐨", "🦄", "🐸", "🐷", "🐔", "🦋"];
-
-    private readonly Random _random = new();
     private readonly Dictionary<int, int> _estrelasPorFase = new();
-    private List<RankingEntrada>? _competidoresMock;
     private string? _token;
 
     public string? AlunoNome { get; private set; }
@@ -80,7 +69,6 @@ public class SessionService(ApiClient api) : IProgressoRepository
         AvatarEmoji = "🦉";
         PontosTotais = 0;
         _estrelasPorFase.Clear();
-        _competidoresMock = null;
     }
 
     // -------- Progresso: agora persiste de verdade na API --------
@@ -110,39 +98,32 @@ public class SessionService(ApiClient api) : IProgressoRepository
         }
     }
 
-    // -------- Ranking: continua mockado até a próxima fase --------
+    // -------- Ranking e conquistas: agora vêm de verdade da API --------
 
-    public IReadOnlyList<RankingEntrada> ObterRanking()
+    public async Task<IReadOnlyList<RankingEntrada>> ObterRankingAsync()
     {
-        _competidoresMock ??= GerarCompetidoresMock();
+        var entradas = await api.GetAsync<List<RankingEntradaResponseDto>>("/api/ranking", _token!);
 
-        var entradas = _competidoresMock
-            .Select(c => (Nome: c.Nome, AvatarEmoji: c.AvatarEmoji, Pontos: c.Pontos, EhVoce: false))
-            .Append((Nome: AlunoNome ?? "Você", AvatarEmoji, Pontos: PontosTotais, EhVoce: true))
-            .OrderByDescending(e => e.Pontos)
-            .Select((e, indice) => new RankingEntrada
-            {
-                Posicao = indice + 1,
-                Nome = e.Nome,
-                AvatarEmoji = e.AvatarEmoji,
-                Pontos = e.Pontos,
-                EhVoce = e.EhVoce
-            })
-            .ToList();
-
-        return entradas;
+        return entradas.Select(e => new RankingEntrada
+        {
+            Posicao = e.Posicao,
+            Nome = e.Nome,
+            AvatarEmoji = e.AvatarEmoji,
+            Pontos = e.Pontos,
+            EhVoce = e.EhVoce
+        }).ToList();
     }
 
-    private List<RankingEntrada> GerarCompetidoresMock()
+    public async Task<IReadOnlyList<Conquista>> ObterConquistasAsync()
     {
-        var nomes = NomesMockRanking.OrderBy(_ => _random.Next()).Take(9).ToList();
+        var conquistas = await api.GetAsync<List<ConquistaResponseDto>>("/api/conquistas", _token!);
 
-        return nomes.Select(nome => new RankingEntrada
+        return conquistas.Select(c => new Conquista
         {
-            Posicao = 0,
-            Nome = nome,
-            AvatarEmoji = AvataresMockRanking[_random.Next(AvataresMockRanking.Length)],
-            Pontos = _random.Next(20, 620)
+            Titulo = c.Titulo,
+            Descricao = c.Descricao,
+            Icone = c.Icone,
+            Desbloqueada = c.Desbloqueada
         }).ToList();
     }
 

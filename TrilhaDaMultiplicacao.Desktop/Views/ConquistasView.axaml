@@ -28,6 +28,13 @@
                 <TextBlock Text="Cada desafio superado desbloqueia uma nova conquista!" Classes="muted"
                            HorizontalAlignment="Center" TextAlignment="Center" Margin="0,4,0,16" />
 
+                <ProgressBar IsIndeterminate="True" Height="4" CornerRadius="2" Width="640" Margin="0,0,0,16"
+                             Foreground="{DynamicResource AppOrangeBrush}" Background="Transparent"
+                             IsVisible="{Binding IsBusy}" />
+
+                <TextBlock Text="{Binding ErrorMessage}" Classes="error-text" IsVisible="{Binding HasError}"
+                           Width="640" Margin="0,0,0,16" />
+
                 <Border Classes="card" Width="640" Margin="0,0,0,20" Padding="18,14">
                     <StackPanel Spacing="6">
                         <TextBlock Classes="muted" FontWeight="SemiBold">
