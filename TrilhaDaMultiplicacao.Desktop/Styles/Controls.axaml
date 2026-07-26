@@ -394,4 +394,88 @@
     <Setter Property="FontSize" Value="13.5" />
   </Style>
 
+  <!-- ===================== Casca: barra de abas ===================== -->
+  <Style Selector="Button.tab-button">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource AppTextSecondaryBrush}" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="14" />
+    <Setter Property="Padding" Value="10,8" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+  </Style>
+  <Style Selector="Button.tab-button:pointerover">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceAltBrush}" />
+  </Style>
+  <Style Selector="Button.tab-button.ativo">
+    <Setter Property="Foreground" Value="{DynamicResource AppOrangeBrush}" />
+  </Style>
+  <Style Selector="Button.tab-button.ativo TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource AppOrangeBrush}" />
+  </Style>
+
+  <!-- ===================== Conta: seletor de avatar ===================== -->
+  <Style Selector="Button.avatar-option">
+    <Setter Property="Width" Value="58" />
+    <Setter Property="Height" Value="58" />
+    <Setter Property="Margin" Value="5" />
+    <Setter Property="CornerRadius" Value="999" />
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceAltBrush}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="3" />
+    <Setter Property="FontSize" Value="24" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.15" />
+      </Transitions>
+    </Setter>
+  </Style>
+  <Style Selector="Button.avatar-option:pointerover">
+    <Setter Property="RenderTransform" Value="scale(1.08)" />
+  </Style>
+  <Style Selector="Button.avatar-option.selecionado">
+    <Setter Property="BorderBrush" Value="{DynamicResource AppOrangeBrush}" />
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceBrush}" />
+  </Style>
+
+  <!-- ===================== Conquistas ===================== -->
+  <Style Selector="Border.achievement-card">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceBrush}" />
+    <Setter Property="CornerRadius" Value="20" />
+    <Setter Property="Padding" Value="16" />
+    <Setter Property="BoxShadow" Value="0 10 24 0 #26243A66" />
+  </Style>
+  <Style Selector="Border.achievement-card.bloqueada">
+    <Setter Property="Opacity" Value="0.55" />
+    <Setter Property="BoxShadow" Value="none" />
+  </Style>
+  <Style Selector="Border.achievement-icon">
+    <Setter Property="Width" Value="60" />
+    <Setter Property="Height" Value="60" />
+    <Setter Property="CornerRadius" Value="30" />
+    <Setter Property="Background" Value="{DynamicResource AppMascotGradientBrush}" />
+  </Style>
+  <Style Selector="Border.achievement-icon.bloqueada">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceAltBrush}" />
+  </Style>
+
+  <!-- ===================== Ranking ===================== -->
+  <Style Selector="Border.ranking-row">
+    <Setter Property="Background" Value="{DynamicResource AppSurfaceBrush}" />
+    <Setter Property="CornerRadius" Value="16" />
+    <Setter Property="Padding" Value="14,12" />
+    <Setter Property="Margin" Value="0,4" />
+  </Style>
+  <Style Selector="Border.ranking-row TextBlock.linha-texto">
+    <Setter Property="Foreground" Value="{DynamicResource AppTextPrimaryBrush}" />
+  </Style>
+  <Style Selector="Border.ranking-row.voce">
+    <Setter Property="Background" Value="{DynamicResource AppPrimaryGradientBrush}" />
+  </Style>
+  <Style Selector="Border.ranking-row.voce TextBlock.linha-texto">
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+
 </Styles>

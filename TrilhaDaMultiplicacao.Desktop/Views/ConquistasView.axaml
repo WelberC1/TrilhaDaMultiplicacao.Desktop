@@ -1,0 +1,80 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:TrilhaDaMultiplicacao.Desktop.ViewModels"
+             xmlns:models="using:TrilhaDaMultiplicacao.Desktop.Models"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1180" d:DesignHeight="700"
+             x:Class="TrilhaDaMultiplicacao.Desktop.Views.ConquistasView"
+             x:DataType="vm:ConquistasViewModel">
+
+    <Panel ClipToBounds="True">
+
+        <Border Background="{DynamicResource AppSceneGradientBrush}" />
+
+        <Canvas IsHitTestVisible="False">
+            <Border Canvas.Left="-60" Canvas.Top="-60" Width="220" Height="220" CornerRadius="110"
+                    Background="{DynamicResource AppVioletGradientBrush}" Opacity="0.16" />
+            <Border Canvas.Left="1030" Canvas.Top="140" Width="200" Height="200" CornerRadius="100"
+                    Background="{DynamicResource AppYellowBrush}" Opacity="0.16" />
+            <TextBlock Text="🎖️" FontSize="26" Canvas.Left="1040" Canvas.Top="400" Opacity="0.5" />
+            <TextBlock Text="✨" FontSize="22" Canvas.Left="60" Canvas.Top="460" Opacity="0.5" />
+        </Canvas>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel HorizontalAlignment="Center" Margin="24,24,24,40" Spacing="0">
+
+                <TextBlock Text="🎖️ Conquistas" Classes="h1" HorizontalAlignment="Center" TextAlignment="Center" />
+                <TextBlock Text="Cada desafio superado desbloqueia uma nova conquista!" Classes="muted"
+                           HorizontalAlignment="Center" TextAlignment="Center" Margin="0,4,0,16" />
+
+                <Border Classes="card" Width="640" Margin="0,0,0,20" Padding="18,14">
+                    <StackPanel Spacing="6">
+                        <TextBlock Classes="muted" FontWeight="SemiBold">
+                            <Run Text="{Binding TotalDesbloqueadas}" FontWeight="Bold" />
+                            <Run Text=" de " />
+                            <Run Text="{Binding TotalConquistas}" FontWeight="Bold" />
+                            <Run Text=" conquistas desbloqueadas" />
+                        </TextBlock>
+                        <ProgressBar Value="{Binding TotalDesbloqueadas}" Maximum="{Binding TotalConquistas}"
+                                     Height="10" CornerRadius="5"
+                                     Foreground="{DynamicResource AppVioletGradientBrush}"
+                                     Background="{DynamicResource AppSurfaceAltBrush}" />
+                    </StackPanel>
+                </Border>
+
+                <ItemsControl ItemsSource="{Binding Conquistas}" Width="640">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:Conquista">
+                            <Border Classes="achievement-card" Classes.bloqueada="{Binding !Desbloqueada}" Margin="6">
+                                <StackPanel Spacing="10" HorizontalAlignment="Center">
+                                    <Panel HorizontalAlignment="Center">
+                                        <Border Classes="achievement-icon" Classes.bloqueada="{Binding !Desbloqueada}">
+                                            <TextBlock Text="{Binding Icone}" FontSize="26"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <Border IsVisible="{Binding !Desbloqueada}" Width="22" Height="22" CornerRadius="11"
+                                                Background="{DynamicResource AppSurfaceBrush}"
+                                                HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-4,-4">
+                                            <TextBlock Text="🔒" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                    </Panel>
+                                    <TextBlock Text="{Binding Titulo}" FontWeight="Bold" FontSize="15"
+                                               HorizontalAlignment="Center" TextAlignment="Center"
+                                               Foreground="{DynamicResource AppTextPrimaryBrush}" />
+                                    <TextBlock Text="{Binding Descricao}" Classes="muted" FontSize="12.5"
+                                               TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+    </Panel>
+</UserControl>

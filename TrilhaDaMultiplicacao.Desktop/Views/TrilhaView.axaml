@@ -22,57 +22,34 @@
             <TextBlock Text="✨" FontSize="22" Canvas.Left="60" Canvas.Top="440" Opacity="0.5" />
         </Canvas>
 
-        <Grid RowDefinitions="Auto,Auto,*">
+        <Grid RowDefinitions="Auto,*">
 
-            <!-- ===================== Cabeçalho ===================== -->
-            <Border Grid.Row="0" Classes="card" Margin="24,20,24,10" Padding="18,14">
-                <Grid ColumnDefinitions="Auto,*,Auto,Auto">
-                    <Border Grid.Column="0" Width="54" Height="54" CornerRadius="27"
-                            Background="{DynamicResource AppMascotGradientBrush}">
-                        <TextBlock Text="🦉" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Border>
+            <!-- ===================== Boas-vindas + progresso ===================== -->
+            <Border Grid.Row="0" Classes="card" Margin="24,20,24,14" Padding="18,14">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Binding AlunoNome, StringFormat='Olá, {0}! 👋'}" Classes="h2" />
 
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="14,0,0,0" Spacing="1">
-                        <TextBlock Text="{Binding AlunoNome, StringFormat='Olá, {0}! 👋'}" Classes="h2" />
-                        <TextBlock Text="Continue sua jornada pela trilha da multiplicação!" Classes="muted" />
-                    </StackPanel>
-
-                    <Border Grid.Column="2" Background="{DynamicResource AppSurfaceAltBrush}" CornerRadius="999"
-                            Padding="14,8" Margin="0,0,10,0" VerticalAlignment="Center">
-                        <StackPanel Orientation="Horizontal" Spacing="6">
-                            <TextBlock Text="⭐" FontSize="15" />
-                            <TextBlock Text="{Binding TotalEstrelas}" FontWeight="Bold"
-                                       Foreground="{DynamicResource AppTextPrimaryBrush}" VerticalAlignment="Center" />
+                    <Grid ColumnDefinitions="Auto,*">
+                        <TextBlock Grid.Column="0" Text="🗺️" FontSize="20" VerticalAlignment="Center" Margin="0,0,12,0" />
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="6">
+                            <TextBlock Classes="muted" FontWeight="SemiBold">
+                                <Run Text="Seu progresso: " />
+                                <Run Text="{Binding FasesConcluidas}" FontWeight="Bold" />
+                                <Run Text=" de " />
+                                <Run Text="{Binding TotalFases}" FontWeight="Bold" />
+                                <Run Text=" fases concluídas" />
+                            </TextBlock>
+                            <ProgressBar Value="{Binding ProgressoPercentual}" Minimum="0" Maximum="100"
+                                         Height="10" CornerRadius="5"
+                                         Foreground="{DynamicResource AppPrimaryGradientBrush}"
+                                         Background="{DynamicResource AppSurfaceAltBrush}" />
                         </StackPanel>
-                    </Border>
-
-                    <Button Grid.Column="3" Content="Sair" Classes="link" Command="{Binding SairCommand}"
-                            VerticalAlignment="Center" />
-                </Grid>
-            </Border>
-
-            <!-- ===================== Resumo de progresso ===================== -->
-            <Border Grid.Row="1" Classes="card" Margin="24,0,24,14" Padding="18,14">
-                <Grid ColumnDefinitions="Auto,*,Auto">
-                    <TextBlock Grid.Column="0" Text="🗺️" FontSize="20" VerticalAlignment="Center" Margin="0,0,12,0" />
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="6">
-                        <TextBlock Classes="muted" FontWeight="SemiBold">
-                            <Run Text="Seu progresso: " />
-                            <Run Text="{Binding FasesConcluidas}" FontWeight="Bold" />
-                            <Run Text=" de " />
-                            <Run Text="{Binding TotalFases}" FontWeight="Bold" />
-                            <Run Text=" fases concluídas" />
-                        </TextBlock>
-                        <ProgressBar Value="{Binding ProgressoPercentual}" Minimum="0" Maximum="100"
-                                     Height="10" CornerRadius="5"
-                                     Foreground="{DynamicResource AppPrimaryGradientBrush}"
-                                     Background="{DynamicResource AppSurfaceAltBrush}" />
-                    </StackPanel>
-                </Grid>
+                    </Grid>
+                </StackPanel>
             </Border>
 
             <!-- ===================== Trilha de fases ===================== -->
-            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel HorizontalAlignment="Center" Margin="0,6,0,50" Spacing="0">
 
                     <TextBlock Text="🏁 Comece aqui!" FontWeight="Bold" FontSize="13"

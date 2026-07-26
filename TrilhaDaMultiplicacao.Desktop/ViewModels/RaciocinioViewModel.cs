@@ -147,7 +147,7 @@ public partial class RaciocinioViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void VoltarTrilha() => _navigation.NavigateTo(_services.GetRequiredService<TrilhaViewModel>());
+    private void VoltarTrilha() => _navigation.NavigateTo(_services.GetRequiredService<ShellViewModel>());
 
     private List<AfirmacaoLogica> GerarAfirmacoes()
     {
