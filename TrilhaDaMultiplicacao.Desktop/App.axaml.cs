@@ -37,6 +37,7 @@ public partial class App : Application
     private static void ConfigureServices(IServiceCollection services)
     {
         services.AddSingleton<SessionService>();
+        services.AddSingleton<IProgressoRepository>(sp => sp.GetRequiredService<SessionService>());
         services.AddSingleton<NavigationService>();
 
         services.AddSingleton<MainViewModel>();
@@ -50,5 +51,9 @@ public partial class App : Application
         services.AddTransient<MemoriaViewModel>();
         services.AddTransient<RaciocinioViewModel>();
         services.AddTransient<MultiplicandoViewModel>();
+        services.AddTransient<ShellViewModel>();
+        services.AddTransient<RankingViewModel>();
+        services.AddTransient<ConquistasViewModel>();
+        services.AddTransient<ContaViewModel>();
     }
 }

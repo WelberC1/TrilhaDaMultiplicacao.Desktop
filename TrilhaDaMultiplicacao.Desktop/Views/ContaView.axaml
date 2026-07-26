@@ -1,0 +1,100 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:TrilhaDaMultiplicacao.Desktop.ViewModels"
+             xmlns:models="using:TrilhaDaMultiplicacao.Desktop.Models"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1180" d:DesignHeight="760"
+             x:Class="TrilhaDaMultiplicacao.Desktop.Views.ContaView"
+             x:Name="Root"
+             x:DataType="vm:ContaViewModel">
+
+    <Panel ClipToBounds="True">
+
+        <Border Background="{DynamicResource AppSceneGradientBrush}" />
+
+        <Canvas IsHitTestVisible="False">
+            <Border Canvas.Left="-60" Canvas.Top="-60" Width="220" Height="220" CornerRadius="110"
+                    Background="{DynamicResource AppBlueGradientBrush}" Opacity="0.14" />
+            <Border Canvas.Left="1030" Canvas.Top="140" Width="200" Height="200" CornerRadius="100"
+                    Background="{DynamicResource AppOrangeBrush}" Opacity="0.14" />
+            <TextBlock Text="👤" FontSize="26" Canvas.Left="1040" Canvas.Top="400" Opacity="0.5" />
+            <TextBlock Text="✨" FontSize="22" Canvas.Left="60" Canvas.Top="460" Opacity="0.5" />
+        </Canvas>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel HorizontalAlignment="Center" Margin="24,24,24,40" Spacing="0">
+
+                <TextBlock Text="👤 Minha Conta" Classes="h1" HorizontalAlignment="Center" TextAlignment="Center" />
+                <TextBlock Text="Deixe seu perfil com a sua cara!" Classes="muted"
+                           HorizontalAlignment="Center" TextAlignment="Center" Margin="0,4,0,20" />
+
+                <!-- ===================== Perfil ===================== -->
+                <Border Classes="card" Width="560" Margin="0,0,0,20">
+                    <StackPanel Spacing="0" HorizontalAlignment="Center">
+
+                        <Border Width="92" Height="92" CornerRadius="46" HorizontalAlignment="Center" Margin="0,0,0,18"
+                                Background="{DynamicResource AppMascotGradientBrush}" BoxShadow="0 10 24 0 #40F5590C">
+                            <TextBlock Text="{Binding AvatarSelecionado}" FontSize="44"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+
+                        <TextBlock Text="🧒  NOME" Classes="field-label" HorizontalAlignment="Left" Width="480" />
+                        <TextBox Text="{Binding Nome}" PlaceholderText="Seu nome" Width="480" Margin="0,0,0,16" />
+
+                        <TextBlock Text="📧  E-MAIL" Classes="field-label" HorizontalAlignment="Left" Width="480" />
+                        <TextBox Text="{Binding Email}" PlaceholderText="seuemail@exemplo.com" Width="480" Margin="0,0,0,16" />
+
+                        <TextBlock Text="🎨  ESCOLHA UM AVATAR" Classes="field-label" HorizontalAlignment="Left" Width="480" />
+                        <ItemsControl ItemsSource="{Binding Avatares}" Width="480" Margin="0,0,0,6">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="models:OpcaoAvatar">
+                                    <Button Classes="avatar-option" Classes.selecionado="{Binding Selecionado}"
+                                            Content="{Binding Emoji}"
+                                            Command="{Binding #Root.((vm:ContaViewModel)DataContext).SelecionarAvatarCommand}"
+                                            CommandParameter="{Binding Emoji}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <TextBlock Text="{Binding ErrorMessage}" Classes="error-text" IsVisible="{Binding HasError}"
+                                   Width="480" Margin="0,6,0,0" />
+                        <TextBlock Text="{Binding MensagemPerfil}" Classes="info-text" IsVisible="{Binding TemMensagemPerfil}"
+                                   Width="480" Margin="0,6,0,0" />
+
+                        <Button Content="Salvar alterações 💾" Classes="primary" Command="{Binding SalvarPerfilCommand}"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Width="480" Margin="0,16,0,0" />
+                    </StackPanel>
+                </Border>
+
+                <!-- ===================== Trocar senha ===================== -->
+                <Border Classes="card" Width="560">
+                    <StackPanel Spacing="0" HorizontalAlignment="Center">
+                        <TextBlock Text="🔒 Alterar senha" Classes="h2" HorizontalAlignment="Left" Width="480" Margin="0,0,0,14" />
+
+                        <TextBlock Text="NOVA SENHA" Classes="field-label" HorizontalAlignment="Left" Width="480" />
+                        <TextBox Text="{Binding NovaSenha}" PasswordChar="●" PlaceholderText="Crie uma nova senha"
+                                  Width="480" Margin="0,0,0,16" />
+
+                        <TextBlock Text="CONFIRMAR NOVA SENHA" Classes="field-label" HorizontalAlignment="Left" Width="480" />
+                        <TextBox Text="{Binding ConfirmarNovaSenha}" PasswordChar="●" PlaceholderText="Repita a nova senha"
+                                  Width="480" Margin="0,0,0,6" />
+
+                        <TextBlock Text="{Binding ErroSenha}" Classes="error-text" IsVisible="{Binding TemErroSenha}"
+                                   Width="480" Margin="0,6,0,0" />
+                        <TextBlock Text="{Binding MensagemSenha}" Classes="info-text" IsVisible="{Binding TemMensagemSenha}"
+                                   Width="480" Margin="0,6,0,0" />
+
+                        <Button Content="Salvar nova senha 🔐" Classes="secondary" Command="{Binding AlterarSenhaCommand}"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Width="480" Margin="0,16,0,0" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Panel>
+</UserControl>

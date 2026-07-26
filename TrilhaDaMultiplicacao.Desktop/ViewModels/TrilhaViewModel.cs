@@ -17,7 +17,6 @@ public partial class TrilhaViewModel : ViewModelBase
 
     public ObservableCollection<FaseNode> Fases { get; }
 
-    public int TotalEstrelas => Fases.Sum(f => f.Estrelas);
     public int TotalFases => Fases.Count;
     public int FasesConcluidas => Fases.Count(f => f.EhConcluida);
     public double ProgressoPercentual => TotalFases == 0 ? 0 : 100.0 * FasesConcluidas / TotalFases;
@@ -167,10 +166,4 @@ public partial class TrilhaViewModel : ViewModelBase
         };
     }
 
-    [RelayCommand]
-    private void Sair()
-    {
-        _session.Sair();
-        _navigation.NavigateTo(_services.GetRequiredService<LoginViewModel>());
-    }
 }
