@@ -29,6 +29,30 @@ A paleta de cores da interface também não foi escolhida por acaso: segue a psi
 - **Conquistas** desbloqueadas automaticamente conforme o progresso.
 - **Conta do aluno**: editar nome e e-mail, escolher avatar entre ícones de bichinhos fofos, e trocar senha.
 
+## 📸 Capturas de tela
+
+### Conta e autenticação
+
+| Cadastro | Recuperar senha (e-mail) | Recuperar senha (código) | Recuperar senha (nova senha) |
+|---|---|---|---|
+| ![Tela de criar conta](docs/tela-criar-conta.png) | ![Recuperar senha — passo 1, informar e-mail](docs/tela-recuperar-senha-1.png) | ![Recuperar senha — passo 2, código de 6 dígitos](docs/tela-recuperar-senha-2.png) | ![Recuperar senha — passo 3, nova senha](docs/tela-recuperar-senha-3.png) |
+
+### Trilha, ranking, conquistas e conta
+
+| Trilha de fases | Ranking | Conquistas | Minha conta |
+|---|---|---|---|
+| ![Trilha de fases navegável](docs/tela-trilha.png) | ![Ranking geral dos exploradores](docs/tela-ranking.png) | ![Conquistas desbloqueadas](docs/tela-conquistas.png) | ![Edição de conta e avatar](docs/tela-conta.png) |
+
+### Os 6 mini-jogos
+
+| 🧱 Monte o Retângulo | ✖️ Cálculo Rápido | 🧠 Memória Numérica |
+|---|---|---|
+| ![Monte o Retângulo](docs/jogo-retangulo.png) | ![Cálculo Rápido](docs/jogo-calculo.png) | ![Memória Numérica](docs/jogo-memoria.png) |
+
+| 📖 Ajude o Joãozinho | 🔍 Adivinhe o Multiplicando | 🧩 Certo ou Errado? |
+|---|---|---|
+| ![Ajude o Joãozinho](docs/jogo-joaozinho.png) | ![Adivinhe o Multiplicando](docs/jogo-multiplicando.png) | ![Certo ou Errado?](docs/jogo-certo-errado.png) |
+
 ## 🗺️ Roadmap
 
 - [x] Integração com uma API/backend para persistir progresso, perfil e autenticação de verdade
