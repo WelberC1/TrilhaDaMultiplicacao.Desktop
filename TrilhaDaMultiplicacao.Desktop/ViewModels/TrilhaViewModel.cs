@@ -108,10 +108,15 @@ public partial class TrilhaViewModel : ViewModelBase
         }
     }
 
+    // Fases concluídas continuam jogáveis (revisão livre) — o registro na API só
+    // sobrescreve a pontuação salva se o novo resultado for melhor, então rejogar
+    // nunca piora as estrelas já conquistadas.
+    private static bool PodeJogar(FaseNode fase) => fase.Status is FaseStatus.Disponivel or FaseStatus.Concluida;
+
     [RelayCommand]
     private void AbrirFase(FaseNode fase)
     {
-        if (fase.Status == FaseStatus.Disponivel && fase.Tipo == TipoDesafio.Interpretacao)
+        if (PodeJogar(fase) && fase.Tipo == TipoDesafio.Interpretacao)
         {
             var jogo = _services.GetRequiredService<InterpretacaoViewModel>();
             jogo.Configurar(fase.Numero, fase.Titulo);
@@ -119,7 +124,7 @@ public partial class TrilhaViewModel : ViewModelBase
             return;
         }
 
-        if (fase.Status == FaseStatus.Disponivel && fase.Tipo == TipoDesafio.Calculo)
+        if (PodeJogar(fase) && fase.Tipo == TipoDesafio.Calculo)
         {
             var jogo = _services.GetRequiredService<CalculoViewModel>();
             jogo.Configurar(fase.Numero, fase.Titulo);
@@ -127,7 +132,7 @@ public partial class TrilhaViewModel : ViewModelBase
             return;
         }
 
-        if (fase.Status == FaseStatus.Disponivel && fase.Tipo == TipoDesafio.Visual)
+        if (PodeJogar(fase) && fase.Tipo == TipoDesafio.Visual)
         {
             var jogo = _services.GetRequiredService<RetanguloViewModel>();
             jogo.Configurar(fase.Numero, fase.Titulo);
@@ -135,7 +140,7 @@ public partial class TrilhaViewModel : ViewModelBase
             return;
         }
 
-        if (fase.Status == FaseStatus.Disponivel && fase.Tipo == TipoDesafio.Memoria)
+        if (PodeJogar(fase) && fase.Tipo == TipoDesafio.Memoria)
         {
             var jogo = _services.GetRequiredService<MemoriaViewModel>();
             jogo.Configurar(fase.Numero, fase.Titulo);
@@ -143,7 +148,7 @@ public partial class TrilhaViewModel : ViewModelBase
             return;
         }
 
-        if (fase.Status == FaseStatus.Disponivel && fase.Tipo == TipoDesafio.RaciocinioLogico)
+        if (PodeJogar(fase) && fase.Tipo == TipoDesafio.RaciocinioLogico)
         {
             var jogo = _services.GetRequiredService<RaciocinioViewModel>();
             jogo.Configurar(fase.Numero, fase.Titulo);
@@ -151,7 +156,7 @@ public partial class TrilhaViewModel : ViewModelBase
             return;
         }
 
-        if (fase.Status == FaseStatus.Disponivel && fase.Tipo == TipoDesafio.FatorFaltante)
+        if (PodeJogar(fase) && fase.Tipo == TipoDesafio.FatorFaltante)
         {
             var jogo = _services.GetRequiredService<MultiplicandoViewModel>();
             jogo.Configurar(fase.Numero, fase.Titulo);
@@ -159,13 +164,7 @@ public partial class TrilhaViewModel : ViewModelBase
             return;
         }
 
-        InfoMessage = fase.Status switch
-        {
-            FaseStatus.Bloqueada => $"🔒 Complete as fases anteriores para desbloquear \"{fase.Titulo}\"!",
-            FaseStatus.Disponivel => $"🚧 \"{fase.Titulo}\" chega em breve! Continue treinando.",
-            FaseStatus.Concluida => $"⭐ Você já mandou bem em \"{fase.Titulo}\"! Modo revisão chega em breve.",
-            _ => null
-        };
+        InfoMessage = $"🔒 Complete as fases anteriores para desbloquear \"{fase.Titulo}\"!";
     }
 
 }

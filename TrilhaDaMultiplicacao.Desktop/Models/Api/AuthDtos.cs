@@ -4,7 +4,9 @@ public record RegistrarRequest(string Nome, string NomeUsuario, string Email, st
 
 public record LoginRequest(string NomeUsuario, string Senha);
 
-public record AuthResponse(string Token, AlunoResponseDto Aluno);
+public record AuthResponse(string Token, string RefreshToken, AlunoResponseDto Aluno);
+
+public record RefreshTokenRequest(string RefreshToken);
 
 public record AlunoResponseDto(int Id, string Nome, string NomeUsuario, string Email, string AvatarEmoji, int PontosTotais);
 

@@ -1,5 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="using:TrilhaDaMultiplicacao.Desktop.Models">
 
   <!-- ===================== Tipografia ===================== -->
   <Style Selector="TextBlock.h1">
@@ -195,14 +196,14 @@
   </Style>
 
   <!-- ===================== Jogo: Memória Numérica ===================== -->
-  <Style Selector="Button.memory-card">
+  <Style Selector="Button.memory-card" x:DataType="models:CartaMemoria">
     <Setter Property="Width" Value="122" />
     <Setter Property="Height" Value="92" />
     <Setter Property="Margin" Value="7" />
     <Setter Property="CornerRadius" Value="16" />
     <Setter Property="Padding" Value="6" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Background" Value="{DynamicResource AppBlueGradientBrush}" />
+    <Setter Property="Background" Value="{Binding CorFundo}" />
     <Setter Property="Foreground" Value="White" />
     <Setter Property="FontSize" Value="17" />
     <Setter Property="FontWeight" Value="ExtraBold" />
@@ -216,15 +217,28 @@
       </Transitions>
     </Setter>
   </Style>
-  <Style Selector="Button.memory-card:pointerover">
+  <!-- :pointerover e :disabled reafirmam o Background porque o tema Fluent padrão do
+       Button troca a cor de fundo nesses dois estados através do ContentPresenter
+       interno do template (não da propriedade Background do próprio Button), então
+       um Setter comum não é suficiente — tem que mirar o ContentPresenter também,
+       senão o card fica cinza ao passar o mouse ou durante a prévia (cartas desabilitadas). -->
+  <Style Selector="Button.memory-card:pointerover" x:DataType="models:CartaMemoria">
+    <Setter Property="Background" Value="{Binding CorFundo}" />
     <Setter Property="RenderTransform" Value="scale(1.05)" />
   </Style>
-  <Style Selector="Button.memory-card:disabled">
+  <Style Selector="Button.memory-card:pointerover /template/ ContentPresenter" x:DataType="models:CartaMemoria">
+    <Setter Property="Background" Value="{Binding CorFundo}" />
+  </Style>
+  <Style Selector="Button.memory-card:disabled" x:DataType="models:CartaMemoria">
+    <Setter Property="Background" Value="{Binding CorFundo}" />
     <Setter Property="Opacity" Value="1" />
   </Style>
-  <Style Selector="Button.memory-card.revelada">
-    <Setter Property="Background" Value="{DynamicResource AppSurfaceBrush}" />
-    <Setter Property="Foreground" Value="{DynamicResource AppTextPrimaryBrush}" />
+  <Style Selector="Button.memory-card:disabled /template/ ContentPresenter" x:DataType="models:CartaMemoria">
+    <Setter Property="Background" Value="{Binding CorFundo}" />
+  </Style>
+  <Style Selector="Button.memory-card.revelada" x:DataType="models:CartaMemoria">
+    <Setter Property="Background" Value="{Binding CorFundo}" />
+    <Setter Property="Foreground" Value="White" />
     <Setter Property="BorderBrush" Value="{DynamicResource AppBlueBrush}" />
     <Setter Property="BorderThickness" Value="3" />
   </Style>
@@ -243,9 +257,8 @@
       </Animation>
     </Style.Animations>
   </Style>
-  <Style Selector="Button.memory-card.combinada">
-    <Setter Property="Background" Value="{DynamicResource AppGreenBrush}" />
-    <Setter Property="Foreground" Value="White" />
+  <Style Selector="Button.memory-card.combinada" x:DataType="models:CartaMemoria">
+    <Setter Property="Background" Value="{Binding CorFundo}" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="Opacity" Value="0.9" />
   </Style>

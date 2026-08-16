@@ -66,7 +66,7 @@ public class ApiClient(HttpClient httpClient)
 
         if (!resposta.IsSuccessStatusCode)
         {
-            throw new ApiRequestException(await ExtrairMensagemDeErroAsync(resposta));
+            throw new ApiRequestException(await ExtrairMensagemDeErroAsync(resposta), resposta.StatusCode);
         }
 
         return resposta;

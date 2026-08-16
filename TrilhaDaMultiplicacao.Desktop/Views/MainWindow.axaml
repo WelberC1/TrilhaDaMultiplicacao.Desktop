@@ -10,6 +10,7 @@
         Width="1180" Height="760"
         MinWidth="960" MinHeight="640"
         WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
         Background="{DynamicResource AppBackgroundBrush}">
 
     <ContentControl Content="{Binding CurrentView}" />

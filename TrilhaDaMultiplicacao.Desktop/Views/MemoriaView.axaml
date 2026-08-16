@@ -93,6 +93,7 @@
                                             <TextBlock Text="🦉" FontSize="30" IsVisible="{Binding !Revelada}"
                                                        HorizontalAlignment="Center" VerticalAlignment="Center" />
                                             <TextBlock Text="{Binding Texto}" IsVisible="{Binding Revelada}"
+                                                       Foreground="White" FontWeight="ExtraBold"
                                                        TextWrapping="Wrap" TextAlignment="Center"
                                                        HorizontalAlignment="Center" VerticalAlignment="Center" />
                                         </Panel>

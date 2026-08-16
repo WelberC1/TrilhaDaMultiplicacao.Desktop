@@ -206,7 +206,17 @@ public partial class CalculoViewModel : ViewModelBase
 
     private PerguntaCalculo GerarPergunta()
     {
-        var a = _random.Next(2, 10);
+        // Fase 2 "Cálculo Rápido": só tabuada (1 dígito). Fase 7 "Operações com 2 Dígitos"
+        // e fase 11 "Operações com 3 Dígitos" precisam de um fator com essa quantidade de
+        // dígitos de verdade, senão a fase não corresponde ao próprio nome.
+        var (minFatorA, maxFatorA) = _numeroFase switch
+        {
+            7 => (10, 99),
+            11 => (100, 999),
+            _ => (2, 9)
+        };
+
+        var a = _random.Next(minFatorA, maxFatorA + 1);
         var b = _random.Next(2, 10);
         var correto = a * b;
 

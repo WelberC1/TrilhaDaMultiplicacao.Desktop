@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,17 @@ public partial class MemoriaViewModel : ViewModelBase
 {
     private const int TotalPares = 6;
     private const int TempoPreviewInicial = 5;
+
+    // Mesma paleta da marca (Styles/Colors.axaml) — uma cor por par, uma por fase de TotalPares.
+    private static readonly IBrush[] CoresPares =
+    [
+        new SolidColorBrush(Color.Parse("#FF5A5F")), // vermelho
+        new SolidColorBrush(Color.Parse("#2FC48D")), // verde
+        new SolidColorBrush(Color.Parse("#2E7BF6")), // azul
+        new SolidColorBrush(Color.Parse("#FF8A3D")), // laranja
+        new SolidColorBrush(Color.Parse("#8B6BF2")), // violeta
+        new SolidColorBrush(Color.Parse("#F5AC1B")), // amarelo
+    ];
 
     private readonly SessionService _session;
     private readonly NavigationService _navigation;
@@ -111,8 +123,9 @@ public partial class MemoriaViewModel : ViewModelBase
         for (var i = 0; i < fatos.Count; i++)
         {
             var (a, b) = fatos[i];
-            cartas.Add(new CartaMemoria { ParId = i, Texto = $"{a} × {b}" });
-            cartas.Add(new CartaMemoria { ParId = i, Texto = (a * b).ToString() });
+            var cor = CoresPares[i % CoresPares.Length];
+            cartas.Add(new CartaMemoria { ParId = i, Texto = $"{a} × {b}", Cor = cor });
+            cartas.Add(new CartaMemoria { ParId = i, Texto = (a * b).ToString(), Cor = cor });
         }
 
         return cartas.OrderBy(_ => _random.Next()).ToList();

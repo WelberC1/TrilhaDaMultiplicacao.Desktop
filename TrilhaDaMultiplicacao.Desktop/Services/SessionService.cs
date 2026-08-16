@@ -1,3 +1,4 @@
+using System.Net;
 using TrilhaDaMultiplicacao.Desktop.Models;
 using TrilhaDaMultiplicacao.Desktop.Models.Api;
 
@@ -7,6 +8,7 @@ public class SessionService(ApiClient api) : IProgressoRepository
 {
     private readonly Dictionary<int, int> _estrelasPorFase = new();
     private string? _token;
+    private string? _refreshToken;
 
     public string? AlunoNome { get; private set; }
     public string Email { get; private set; } = string.Empty;
@@ -40,14 +42,14 @@ public class SessionService(ApiClient api) : IProgressoRepository
 
     public async Task AtualizarPerfilAsync(string nome, string email, string avatarEmoji)
     {
-        var resultado = await api.PutAsync<AtualizarPerfilRequest, AlunoResponseDto>(
-            "/api/alunos/me", new AtualizarPerfilRequest(nome, email, avatarEmoji), _token!);
+        var resultado = await ComRenovacaoAsync(() => api.PutAsync<AtualizarPerfilRequest, AlunoResponseDto>(
+            "/api/alunos/me", new AtualizarPerfilRequest(nome, email, avatarEmoji), _token!));
 
         AplicarPerfil(resultado);
     }
 
-    public async Task AlterarSenhaAsync(string senhaAtual, string novaSenha) =>
-        await api.PutAsync("/api/alunos/me/senha", new AlterarSenhaRequest(senhaAtual, novaSenha), _token!);
+    public Task AlterarSenhaAsync(string senhaAtual, string novaSenha) =>
+        ComRenovacaoAsync(() => api.PutAsync("/api/alunos/me/senha", new AlterarSenhaRequest(senhaAtual, novaSenha), _token!));
 
     public async Task SairAsync()
     {
@@ -64,6 +66,7 @@ public class SessionService(ApiClient api) : IProgressoRepository
         }
 
         _token = null;
+        _refreshToken = null;
         AlunoNome = null;
         Email = string.Empty;
         AvatarEmoji = "🦉";
@@ -73,7 +76,7 @@ public class SessionService(ApiClient api) : IProgressoRepository
 
     // -------- Progresso: agora persiste de verdade na API --------
 
-    public async Task RegistrarConclusaoFaseAsync(int numeroFase, int estrelas)
+    public Task RegistrarConclusaoFaseAsync(int numeroFase, int estrelas) => ComRenovacaoAsync(async () =>
     {
         var resultado = await api.PostAsync<RegistrarConclusaoRequest, FaseProgressoResponseDto>(
             $"/api/progresso/fases/{numeroFase}", new RegistrarConclusaoRequest(estrelas), _token!);
@@ -82,7 +85,7 @@ public class SessionService(ApiClient api) : IProgressoRepository
 
         var perfilAtualizado = await api.GetAsync<AlunoResponseDto>("/api/alunos/me", _token!);
         AplicarPerfil(perfilAtualizado);
-    }
+    });
 
     public int? EstrelasDaFase(int numeroFase) =>
         _estrelasPorFase.TryGetValue(numeroFase, out var estrelas) ? estrelas : null;
@@ -102,7 +105,7 @@ public class SessionService(ApiClient api) : IProgressoRepository
 
     public async Task<IReadOnlyList<RankingEntrada>> ObterRankingAsync()
     {
-        var entradas = await api.GetAsync<List<RankingEntradaResponseDto>>("/api/ranking", _token!);
+        var entradas = await ComRenovacaoAsync(() => api.GetAsync<List<RankingEntradaResponseDto>>("/api/ranking", _token!));
 
         return entradas.Select(e => new RankingEntrada
         {
@@ -116,7 +119,7 @@ public class SessionService(ApiClient api) : IProgressoRepository
 
     public async Task<IReadOnlyList<Conquista>> ObterConquistasAsync()
     {
-        var conquistas = await api.GetAsync<List<ConquistaResponseDto>>("/api/conquistas", _token!);
+        var conquistas = await ComRenovacaoAsync(() => api.GetAsync<List<ConquistaResponseDto>>("/api/conquistas", _token!));
 
         return conquistas.Select(c => new Conquista
         {
@@ -127,9 +130,47 @@ public class SessionService(ApiClient api) : IProgressoRepository
         }).ToList();
     }
 
+    // -------- Renovação silenciosa: quando o access token (24h) expira no meio de uma chamada, --------
+    // -------- usa o refresh token (30 dias) pra tirar um novo e repete a chamada uma vez. --------
+
+    private async Task<T> ComRenovacaoAsync<T>(Func<Task<T>> chamada)
+    {
+        try
+        {
+            return await chamada();
+        }
+        catch (ApiRequestException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized && _refreshToken is not null)
+        {
+            await RenovarTokenAsync();
+            return await chamada();
+        }
+    }
+
+    private async Task ComRenovacaoAsync(Func<Task> chamada)
+    {
+        try
+        {
+            await chamada();
+        }
+        catch (ApiRequestException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized && _refreshToken is not null)
+        {
+            await RenovarTokenAsync();
+            await chamada();
+        }
+    }
+
+    private async Task RenovarTokenAsync()
+    {
+        var resultado = await api.PostAsync<RefreshTokenRequest, AuthResponse>(
+            "/api/auth/refresh", new RefreshTokenRequest(_refreshToken!));
+
+        AplicarSessao(resultado);
+    }
+
     private void AplicarSessao(AuthResponse resposta)
     {
         _token = resposta.Token;
+        _refreshToken = resposta.RefreshToken;
         AplicarPerfil(resposta.Aluno);
     }
 

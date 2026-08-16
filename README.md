@@ -25,15 +25,16 @@ A paleta de cores da interface também não foi escolhida por acaso: segue a psi
   - 🧱 **Monte o Retângulo** — modelo visual de array (linhas × colunas), reforçando *por que* a multiplicação funciona, não só o resultado.
 - **Casca de navegação por abas** depois do login: 🗺️ Trilha, 🏆 Ranking, 🎖️ Conquistas e 👤 Conta, com barra fixa mostrando avatar, nome e pontos.
 - **Sistema de pontos** que soma a cada fase concluída e alimenta o ranking.
-- **Ranking** com o aluno destacado entre outros exploradores (dado fictício por enquanto — ver Roadmap).
+- **Ranking** com o aluno destacado entre outros exploradores, vindo de verdade da API.
 - **Conquistas** desbloqueadas automaticamente conforme o progresso.
 - **Conta do aluno**: editar nome e e-mail, escolher avatar entre ícones de bichinhos fofos, e trocar senha.
 
 ## 🗺️ Roadmap
 
-- [ ] Integração com uma API/backend para persistir progresso, perfil e autenticação de verdade
-- [ ] Ranking com alunos reais (hoje os concorrentes são fictícios, gerados localmente)
+- [x] Integração com uma API/backend para persistir progresso, perfil e autenticação de verdade
+- [x] Ranking com alunos reais
 - [ ] Mais fases e variações para os mini-jogos existentes
+- [ ] Testes automatizados
 
 ## 🛠️ Tecnologias
 
@@ -64,7 +65,7 @@ TrilhaDaMultiplicacao.Desktop/
 └── Assets/              # Imagens e ícones
 ```
 
-Toda a persistência hoje é em memória, via `SessionService`. As telas novas (Ranking, Conquistas, Conta) já dependem da interface `IProgressoRepository` em vez da classe concreta — quando a API real existir, uma implementação que fale com o backend substitui o mock sem precisar alterar nenhuma tela.
+`SessionService` implementa `IProgressoRepository` e fala de verdade com o [backend](https://github.com/WelberC1/TrilhaDaMultiplicacaoAPI) — login, cadastro, progresso, ranking e conquistas são todos persistidos na API. Dentro do processo, a sessão (token, refresh token e perfil) fica só em memória: fechar o app exige logar de novo.
 
 ## 🎓 Contexto acadêmico
 
